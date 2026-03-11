@@ -1,0 +1,1993 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Batinga Cursos — Landing</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+
+    /* ====== MELHORIA: Acessibilidade - Estilos de Foco Visíveis ====== */
+    :focus-visible {
+        outline: 3px solid #facc15;
+        outline-offset: 2px;
+        border-radius: 4px; /* Adiciona um raio de borda ao foco */
+    }
+
+    /* ====== CAROUSEL ====== */
+    .carousel-container{
+      width:100%;
+      max-width:1200px;
+      position:relative;
+      margin:40px auto 10px;
+      padding:0 20px;
+    }
+    .carousel-wrapper{
+      position:relative;
+      width:100%;
+      height:400px;
+      overflow:hidden;
+      border-radius:16px;
+    }
+    .carousel-track{
+      display:flex;
+      height:100%;
+      will-change:transform;
+      transition: transform .6s ease;
+    }
+    .carousel-item{
+      min-width:300px;
+      height:100%;
+      margin-right:20px;
+      background:linear-gradient(135deg,#2A2A2A 0%,#1A1A1A 100%);
+      border-radius:12px;
+      padding:20px;
+      border:1px solid #333;
+      transition:all .3s ease;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+      position:relative;
+      overflow:hidden;
+      flex-shrink:0;
+    }
+    .carousel-item:hover{border-color:#8B45FF;transform:translateY(-8px) scale(1.02)}
+    .carousel-item::before{
+      content:'';position:absolute;inset:0;
+      background:linear-gradient(135deg,rgba(255,255,255,.1) 0%, transparent 50%);
+      pointer-events:none;
+    }
+    .item-content{text-align:center;padding:40px 20px;z-index:2}
+    .item-title{font-size:24px;font-weight:700;margin-bottom:16px;color:#fff}
+    .item-description{font-size:16px;line-height:1.5;color:rgba(255,255,255,.9);max-width:250px}
+    .item-number{
+      position:absolute;top:20px;right:20px;width:40px;height:40px;
+      background:rgba(255,255,255,.2);border-radius:50%;
+      display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px
+    }
+
+    .carousel-wrapper::before,
+    .carousel-wrapper::after{
+      content:'';position:absolute;top:0;height:100%;width:120px;z-index:10;pointer-events:none
+    }
+
+    .carousel-nav{
+      position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;
+      padding:0 8px;pointer-events:none;z-index:20;
+    }
+    .nav-btn{
+      pointer-events:auto;
+      width:44px;height:44px;border-radius:999px;border:1px solid rgba(255,255,255,.3);
+      background:rgba(0,0,0,.35);backdrop-filter:blur(6px);
+      display:flex;align-items:center;justify-content:center;
+      cursor:pointer;transition:transform .2s ease, background .2s ease, border-color .2s ease;
+    }
+    .nav-btn:hover{transform:scale(1.06);background:rgba(0,0,0,.5);border-color:#8B45FF}
+    .nav-btn i{color:#fff}
+
+    .carousel-indicators{display:flex;justify-content:center;gap:10px;margin:12px 0 8px}
+    .indicator{width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:all .2s ease}
+    .indicator.active{background:#8B45FF;transform:scale(1.2)}
+
+    .carousel-progress{
+      height:4px;border-radius:999px;background:rgba(255,255,255,.15);
+      overflow:hidden;margin:10px auto 0;max-width:300px;
+    }
+    .carousel-progress .bar{
+      height:100%;width:0%;background:#8B45FF;
+    }
+
+    @media (max-width:768px){
+      .carousel-item{min-width:250px;margin-right:15px}
+      .carousel-wrapper{height:300px}
+      .carousel-wrapper::before,.carousel-wrapper::after{width:40px}
+      .item-title{font-size:20px}
+      .item-description{font-size:14px}
+    }
+    @media (max-width:480px){
+      .carousel-item{min-width:calc(100% - 40px);margin-right:10px}
+      .carousel-wrapper{height:250px}
+      .carousel-wrapper::before,.carousel-wrapper::after{width:60px}
+    }
+
+    .carousel-item::after{
+      content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;
+      background:radial-gradient(circle,rgba(255,255,255,.1) 0%,transparent 70%);
+      opacity:0;transition:opacity .3s ease;pointer-events:none
+    }
+
+    
+    .carousel-item:hover::after{opacity:1}
+
+    /* ====== HERO / BASE ====== */
+    :root{
+      --bg-1:#0f172a; --bg-2:#0b3a78;
+      --amber:#f59e0b; --yellow:#facc15; --white:#fff;
+      --card-glass:rgba(255,255,255,.08); --card-border:rgba(255,255,255,.18);
+      --muted:#c7d2fe; --green:#16a34a; --red:#ef4444;
+      --radius:16px; --shadow:0 10px 30px rgba(0,0,0,.45);
+    }
+    body{
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+      background:#82368C;
+      color:#fff;min-height:100vh;overflow-x:hidden
+    }
+    .header{display:flex;justify-content:space-between;align-items:center;padding:20px 40px;position:relative;z-index:100}
+    .logo{display:flex;align-items:center;gap:8px;font-size:24px;font-weight:800;text-align:center}
+    @media (max-width:768px){.header{padding:15px 20px;flex-direction:column;gap:15px}}
+    .container{margin:0 auto;padding:40px 20px;text-align:center}
+
+    .trustpilot-badge{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:30px;font-size:14px}
+    .stars{display:flex;gap:2px}.star{color:#9AE66E;font-size:16px}
+
+    .main-headline{font-size:clamp(2rem,5vw,3rem);font-weight:900;line-height:1.1;margin-bottom:30px;text-transform:uppercase;letter-spacing:-1px}
+    .highlight-green{color:#82368C;position:relative}
+    .highlight-green::after{content:'';position:absolute;bottom:-5px;left:0;width:100%;height:8px;background:#82368C;opacity:.7;border-radius:4px}
+
+    .subheadline{font-size:1.2rem;color:white;margin-bottom:20px;line-height:1.5;max-width:800px;margin-inline:auto; background: #2A0D30; border-radius: 2rem;}
+    @media (max-width:768px){.subheadline{font-size: 0.8rem; } .main-headline{font-size:clamp(1.4rem,2.5vw,2rem);}}
+    @media (max-width:608px){.container img{ height: 4rem;}}
+    @media (max-width:1200px){.container img{ height: 6rem;} .stat-pill{font-size: 0.5rem; padding:3px 5px;}  }
+    @media (min-width:1280px){.container img{height: 8rem;} .stat-pill{font-size: 0.8rem;}}
+    .video-shell{max-width:800px;margin:0 auto 50px}
+    .video-card{position:relative;border-radius:20px;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,.5);padding:4px;margin-top:20px}
+    .aspect-video{background:#000;border-radius:16px;position:relative;aspect-ratio:16/9;overflow:hidden}
+
+    .video-stats{position:absolute;left:16px;right:16px;bottom:12px;display:flex;justify-content:space-between;gap:10px;}
+    .stat-pill{display:flex;align-items:center;gap:8px;background:rgba(0,0,0,.5);padding:6px 10px;border-radius:999px; backdrop-filter: blur(4px);}
+    
+    .social{display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center;color:white;margin:10px 0 20px; font-size: 13px;}
+    @media(min-width:768px){.social{flex-direction:row}.dot{width:4px;height:4px;border-radius:50%;background:#93c5fd;display:block}}
+    .ok{width:13px;height:13px;stroke:#4ade80}
+
+    .btn-cta{display:inline-block;background: linear-gradient(to right, #2A0D30, #C774D6);color:white;font-weight:700;border:none;border-radius:0.5rem;padding:18px 36px;font-size:clamp(16px,2.2vw,20px);cursor:pointer;box-shadow:0 18px 40px  rgba(0,0,0,.5);transition:transform .25s ease, filter .25s ease}
+    .btn-cta:hover{transform:translateY(-2px) scale(1.02);filter:brightness(1.05); background: white; color: black;}
+    .scroll-indicator{position:relative;margin-top:20px}
+    .chev{width:32px;height:32px;stroke:#ffffffaa;animation:bounce 1.2s infinite}
+    @keyframes bounce{0%,100%{transform:translate(0)}50%{transform:translateY(8px)}}
+
+    /* Offer Section */
+    section#offer-section{padding:0px 20px}
+    .text-center{text-align:center}
+    .title{font-weight:800;font-size:clamp(28px,4vw,48px);margin:16px 0 8px}
+    .title span{color:#82368C;}
+    .badge{display:inline-block;background:#2A0D30;color:#fff;font-weight:700;padding:10px 18px;border-radius:999px;margin-bottom:16px;animation:pulse 1.7s infinite}
+    @keyframes pulse{0%,100%{transform:scale(1);filter:brightness(1)}50%{transform:scale(1.03);filter:brightness(1.1)}}
+    .timer{background:rgb(168, 85, 247);color:#111827;padding:14px 18px;border-radius:var(--radius);font-weight:800;font-size:clamp(18px,2.2vw,24px);display:inline-block;margin-top:8px}
+
+    .grid1{display:grid;gap:32px;margin-top:48px}
+    @media(min-width:992px){.grid1{grid-template-columns:1fr 1fr}}
+    .playerCreator-general-container{text-align:center;display:flex;flex-direction:column;gap:1rem;word-break:break-word}.playerCreator-container{box-sizing:border-box;max-width:100%;position:relative;text-align:center;padding:0;font-size:10px;text-align:center;overflow:hidden;background-size:cover;padding-bottom:56.25%}.playerCreator-imgCoverCreator-container{pointer-events:none;position:absolute;width:100%;top:-17%}.playerCreator-imgCoverCreator-container img{width:100%}.playerCreator-playerEl{position:absolute;top:-3000px;bottom:-3000px;left:0;right:0;transform:scale(1);width:100%;height:calc(100% + 6000px);margin:auto}.playerCreator-loadingel{width:20vw;max-width:140px;height:20vw;max-height:140px;display:block;border:solid .5vw;border-color:#6c757d #6c757d #6c757d #fff0;border-radius:50%;position:absolute;left:0;right:0;top:0;bottom:0;margin:auto;animation:ani-load 1s linear infinite}@keyframes ani-load{100%{transform:rotate(360deg)}}.player-unmute-el-pulsar{animation:ani-intro-center 1s linear infinite}@keyframes ani-intro-center{50%{transform:scale(.9)}100%{transform:scale(1)}}.ocultar,.esconder,.ocultar,.hide{display:none!important}@media (min-width:500px){.playerCreator-autoplay-fontsize-controller{font-size:20px!important}.autoplay-model1-soundel{width:130px!important;margin:.5rem 0!important}}@media (max-width:352px){.playerCreator-autoplay-fontsize-controller{font-size:14px!important}}.playerCreator-headline{width:fit-content;align-self:center;padding:0 1rem}.playerCreator-subHeadlineEl{width:fit-content;align-self:center;padding:0 1rem}.playerCreator-headline,.playerCreator-headline *{font-size:26px!important}.playerCreator-subHeadlineEl,.playerCreator-subHeadlineEl *{font-size:13px!important}.gatilho-de-contato-text-div,.gatilho-de-contato-text-div *{font-size:20px!important}.gatilho-de-contato-btn-div,.gatilho-de-contato-btn-div *{font-size:13px!important}@media (min-width:769px){.playerCreator-headline,.playerCreator-headline *{font-size:30px!important}.playerCreator-subHeadlineEl,.playerCreator-subHeadlineEl *{font-size:16px!important}.gatilho-de-contato-text-div,.gatilho-de-contato-text-div *{font-size:30px!important}.gatilho-de-contato-btn-div,.gatilho-de-contato-btn-div *{font-size:20px!important}}
+    .card{border:1px solid var(--card-border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);backdrop-filter:blur(6px)}
+    .card.glass{background:var(--card-glass)}
+    .card.gold{background:#5A205F;color:whi;border:0}
+    .card.golde{background:#2A0D30;color:whi;border:0}
+    .card.green{background:var(--green);border:0}
+    .card-content{padding:32px}
+
+    .list{display:grid;gap:12px;margin:0 0 24px}
+    .list-item{display:flex;align-items:center;gap:10px;font-size:17px}
+    .list-item .ok{color:#86efac}
+     @media (max-width:789px){ 
+      .list-item{
+        text-align:left;
+      }
+    }
+    .bonus-list{display:grid;gap:12px;margin-top:12px; color: #82368C;}
+    .bonus-item{display:flex;gap:12px;align-items:flex-start;padding-bottom:12px;border-bottom:1px solid #82368C; text-align: left;}
+    .bonus-item:last-child{border-bottom:0}
+    .bonus-grow{flex:1}
+    .bonus-title{font-weight:700}
+    .bonus-desc{color:#82368C;font-size:14px}
+    .price-badge{background:var(--green);color:#fff;padding:6px 10px;border-radius:999px;white-space:nowrap;font-weight:700;font-size:14px;margin-left:auto}
+
+    .price{font-size:clamp(40px,6vw,56px);font-weight:800;line-height:1;margin:6px 0}
+    .old-price{color:white;text-decoration:line-through;font-weight:600}
+    .olde-price{color:white;text-decoration:line-through;font-weight:600}
+    .subprice{font-size:18px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;width:100%;padding:16px 20px;border:none;border-radius:14px;background:#82368C;color:#fff;font-weight:800;font-size:20px;cursor:pointer;transition:transform .2s ease, filter .2s ease, background .2s ease}
+    .btne{display:inline-flex;align-items:center;justify-content:center;width:100%;padding:16px 20px;border:none;border-radius:14px;background:#82368C;color:#fff;font-weight:800;font-size:20px;cursor:pointer;transition:transform .2s ease, filter .2s ease, background .2s ease}
+    .btn:hover{transform:translateY(-2px) scale(1.01);filter:brightness(1.05)}
+    .btne:hover{transform:translateY(-2px) scale(1.01);filter:brightness(1.05)}
+    .btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+    .note{color:white;font-size:14px;margin-top:10px}
+
+    /* Reveal */
+    .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease, transform .7s ease}
+    .reveal.in{opacity:1;transform:none}
+    .delay-3{transition-delay:.45s}.delay-4{transition-delay:.6s}
+
+    /* Footer */
+    :root{
+      --slate-900:#0f172a;--slate-800:#1f2937;--slate-700:#334155;--slate-400:#94a3b8;--slate-300:#cbd5e1;
+    }
+    
+    .footer__container{max-width:72rem;margin:0 auto}
+    .footer__bottom{border-top:1px solid var(--slate-700);padding-top:2rem;display:flex;flex-direction:column;gap:1rem;justify-content:space-between;align-items:center}
+    @media(min-width:768px){.footer__bottom{flex-direction:row}; 
+  }
+    .links{display:flex;gap:1.5rem;font-size:.9375rem;color:white;flex-wrap:wrap;justify-content:center}
+    .links a{color:white;transition:color .2s ease}
+    .links a:hover{color:#2A0D30}
+    .disclaimer{margin-top:2rem;background:var(--slate-800);border-radius:.75rem;padding:1.5rem}
+    .disclaimer p{margin:0;color:white;font-size:.75rem;line-height:1.7}
+
+    /* Estilos para o formulário */
+    .form-container {
+        max-width: 42rem; /* max-w-2xl */
+        margin-left: auto;
+        margin-right: auto;
+        background-color: white;
+        color: #333;
+        border-radius: 1rem; /* rounded-2xl */
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); /* shadow-2xl */
+        padding: 3rem; /* p-12 */
+        text-align: left;
+    }
+    .form-field { margin-bottom: 1.5rem; } /* MELHORIA: Classe para agrupar label, input e erro */
+    .form-label { display: block; font-size: 0.875rem; font-weight: 600; color: #374151; margin-bottom: 0.5rem; }
+    .form-input {
+        width: 100%;
+        height: 3.5rem;
+        font-size: 1.125rem;
+        border: 2px solid #e5e7eb;
+        border-radius: 0.5rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        transition: border-color .2s ease;
+    }
+    .form-input:focus { border-color: #3b82f6; outline: none; }
+    .form-input.invalid { border-color: #ef4444; } /* MELHORIA: Estilo para input inválido */
+    .error-message { color: #ef4444; font-size: 0.875rem; margin-top: 0.5rem; display: none; } /* MELHORIA: Mensagem de erro */
+
+    .form-submit-btn {
+        width: 100%;
+        background: #2A0D30;
+        color: white;
+        font-size: 1.25rem;
+        padding-top: 1.5rem;
+        padding-bottom: 1.5rem;
+        border-radius: 0.5rem;
+        font-weight: 700;
+        box-shadow: 0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -2px rgba(0,0,0,.05);
+        transform: scale(1);
+        transition: all 0.3s;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        cursor: pointer;
+    }
+    .form-submit-btn:hover {
+       
+        transform: scale(1.05);
+    }
+    .form-security-info {
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid #e5e7eb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1.5rem;
+        font-size: 0.875rem;
+        color: #4b5563;
+    }
+    .form-security-info > div { display: flex; align-items: center; }
+    .hidden { display: none; }
+
+
+            /* ====== ESTILOS GERAIS E RESET ====== */
+            :root {
+                /* Cores baseadas no Tailwind CSS */
+                --slate-900: #0f172a;
+                --slate-600: #475569;
+                --blue-100: #dbeafe;
+                --blue-900: #1e3a8a;
+                --amber-400:  #82368C;
+                --amber-500: #2A0D30;
+                --white: #ffffff;
+                /* Fontes */
+                --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            }
+    
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+    
+            body {
+                font-family: var(--font-sans);
+    
+            }
+    
+            /* ====== SEÇÃO DE BENEFÍCIOS ====== */
+            .benefits-section {
+                padding: 5rem 1rem; /* py-20 px-4 */
+                background-color: white;
+            }
+    
+            .container {
+                max-width: 72rem; /* max-w-6xl */
+                margin-left: auto;
+                margin-right: auto;
+            }
+    
+            /* ====== CABEÇALHO DA SEÇÃO ====== */
+            .section-header {
+                text-align: center;
+                margin-bottom: 4rem; /* mb-16 */
+            }
+    
+            .section-title {
+                font-size: 2.25rem; /* text-4xl */
+                font-weight: 700; /* font-bold */
+                color: var(--slate-900);
+                line-height: 1.2;
+                margin-bottom: 1.5rem; /* mb-6 */
+            }
+    
+            .section-title .highlight {
+                color:#82368C;
+            }
+    
+            .section-subtitle {
+                font-size: 1.25rem; /* text-xl */
+                color: var(--slate-600);
+                max-width: 48rem; /* max-w-3xl */
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            .benefit-card {
+              text-align: center;
+              padding: 20px;
+            }
+            
+            .icon-container {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              margin: 0 auto 12px;
+              width: 64px;   /* tamanho fixo do "caixote" do ícone */
+              height: 64px;
+              border-radius: 50%;
+              background: #f3f4f6; /* pode trocar ou remover */
+            }
+            
+            .icon-container svg {
+              width: 32px;
+              height: 32px; /* cor do traço do SVG */
+            }
+            /* ====== GRID DE BENEFÍCIOS ====== */
+            .benefits-grid {
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+              gap: 24px;
+            }
+    
+            /* ====== CARD DE BENEFÍCIO ====== */
+            .benefit-card {
+                height: 100%;
+                border-radius: 0.75rem; /* rounded-lg */
+                box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05); /* shadow-lg */
+                transition: all 0.5s ease-in-out;
+                align-items: center;
+                justify-content: center;
+            }
+    
+            .benefit-card:hover {
+                transform: translateY(-0.5rem); /* hover:-translate-y-2 */
+                box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); /* hover:shadow-2xl */
+            }
+    
+            .card-content {
+                padding: 2rem; /* p-8 */
+
+            }
+    
+            .icon-container {
+                width: 4rem; /* w-16 */
+                height: 4rem; /* h-16 */
+                border-radius: 1rem; /* rounded-2xl */
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 1.5rem; /* mb-6 */
+                transition: transform 0.3s ease-in-out;
+            }
+    
+            .benefit-card:hover .icon-container {
+                transform: scale(1.1); /* group-hover:scale-110 */
+            }
+    
+            .icon-container svg {
+                width: 2rem; /* w-8 */
+                height: 2rem; /* h-8 */
+                color: var(--white);
+                align-items: center;
+                justify-content: center;
+                display: flex;
+            }
+    
+            .card-title {
+                font-size: 1.5rem; /* text-2xl */
+                font-weight: 700;
+                color: var(--slate-900);
+                margin-bottom: 1rem; /* mb-4 */
+                transition: color 0.3s ease-in-out;
+            }
+            
+            .benefit-card:hover .card-title {
+                color:#82368C; /* hover:text-amber-600 */
+            }
+    
+            .card-description {
+                color: var(--slate-600);
+                line-height: 1.625; /* leading-relaxed */
+            }
+    
+            /* ====== SEÇÃO DE ESTATÍSTICAS ====== */
+            .stats-section {
+                margin-top: 5rem; /* mt-20 */
+                border-radius: 1.5rem; /* rounded-3xl */
+                padding: 3rem; /* p-12 */
+                color: var(--white);
+                background-image: linear-gradient(to right, var(--slate-900), var(--blue-900));}
+    
+            .stats-grid {
+                display: grid;
+                gap: 2rem;
+                text-align: center;
+                grid-template-columns: 1fr 1fr; /* 2 colunas para mobile */
+            }
+    
+            .stat-value {
+                font-size: 2.25rem; /* text-4xl */
+                font-weight: 700;
+                color: var(--amber-400);
+                margin-bottom: 0.5rem; /* mb-2 */
+            }
+    
+            .stat-label {
+                font-size: 1.125rem; /* text-lg */
+                color: var(--blue-100);
+            }
+            
+            /* ====== RESPONSIVIDADE ====== */
+            @media (min-width: 768px) {
+                .section-title { font-size: 3rem; } /* md:text-5xl */
+                .benefits-grid { grid-template-columns: repeat(2, 1fr); } /* md:grid-cols-2 */
+                .stats-grid { grid-template-columns: repeat(4, 1fr); } /* md:grid-cols-4 */
+                .stat-value { font-size: 3rem; }
+
+            }
+    
+            @media (min-width: 1024px) {
+                .benefits-grid { grid-template-columns: repeat(3, 1fr); 
+                } 
+            }
+            
+            /* ====== ANIMAÇÕES DE SCROLL ====== */
+            .animate-on-scroll {
+                opacity: 0;
+                transform: translateY(50px);
+                transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            }
+    
+            .animate-on-scroll.is-visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+    
+            /* ====== GRADIENTES PARA OS ÍCONES ====== */
+            .gradient-yellow-orange { background-image: linear-gradient(to right, #facc15, #f97316); }
+            .gradient-green-emerald { background-image: linear-gradient(to right, #4ade80, #10b981); }
+            .gradient-purple-violet { background-image: linear-gradient(to right, #a78bfa, #8b5cf6); }
+            .gradient-blue-indigo { background-image: linear-gradient(to right, #60a5fa, #6366f1); }
+            .gradient-pink-rose { background-image: linear-gradient(to right, #f472b6, #f43f5e); }
+            .gradient-cyan-teal { background: linear-gradient(to right, #82368C, #C774D6);; }
+
+    .container{
+      max-width: 80rem; /* ~max-w-5xl (aprox 64rem), deixei um pouco maior */
+      margin: 0 auto;
+    }
+
+    /* ====== Card ====== */
+    .carde{
+      position: relative;
+      overflow: hidden;
+      border: 0;
+      border-radius: 24px;
+      background: #6E2C76;
+      box-shadow: 0 20px 60px rgba(0,0,0,.45);
+      isolation:isolate;
+    }
+    .card-content{
+      z-index: 1;
+      padding: 2rem;
+      align-items: center;
+      justify-content: center;
+    }
+    @media(min-width:768px){
+      .card-content{ padding: 3rem; }
+    }
+
+    /* ====== Blobs decorativos ====== */
+    .blob-wrap{ position:absolute; inset:0; }
+    .blob{
+      position:absolute; border-radius:999px; filter: blur(40px);
+    }
+    .blob--top-right{
+      top:-8rem; right:-8rem; width:16rem; height:16rem;
+      background: rgba(255,255,255,.1);
+    }
+    .blob--bottom-left{
+      bottom:-8rem; left:-8rem; width:20rem; height:20rem;
+      background: rgba(96,165,250,.2);
+    }
+
+    /* ====== Layout interno ====== */
+    .stack{ display:flex; flex-direction:column; gap:1.5rem; align-items:center; text-align:center; }
+
+    .badge{
+      display:inline-flex; align-items:center; gap:.5rem;
+      padding:.5rem 1rem; border-radius:999px;
+      background: rgba(255,255,255,.18);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color:#fff; font-weight:600; font-size:.875rem;
+    }
+    .title{
+      font-weight: 900;
+      line-height:1.1;
+      font-size: clamp(2rem, 5vw, 3.125rem); /* 32px–50px */
+    }
+    .title .accent{ color: var(--yellow-300); display:block; font-weight: 400; font-size: clamp(1rem, 5vw, 1.8rem); margin-top: 10px;}
+
+    .time{
+      display:flex; align-items:center; gap:.5rem; justify-content:center;
+      font-size:1.125rem; font-weight:700;
+      color:#fff;
+    }
+
+    .desc{ max-width: 56rem; margin-inline:auto; }
+    .desc p{ color: rgba(255,255,255,.92); font-size:1.1rem; line-height:1.7; margin-top: -20px; }
+
+    .grid{
+      display:grid; gap:1rem; margin-top:1.25rem;
+    }
+    @media(min-width:768px){
+      .grid{ grid-template-columns: repeat(3, 1fr); }
+      
+    }
+    @media (max-width:768px){ 
+      .icon{ width: 0.7rem; height: 0.7rem; }
+    }
+
+    @media (min-width:1200px){ 
+      .icon{ width: 1.5rem; height: 1.5rem; }
+    }
+    .feature{
+      background: rgba(255,255,255,.1);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 14px;
+      padding: 1rem;
+    }
+    .feature p{
+      margin-top:.5rem;
+      font-weight:600; font-size:.95rem; color:#fff;
+    }
+    .icon{
+       display:block; margin: 0 auto;
+      fill: currentColor; stroke: currentColor;
+    }
+ 
+
+    .cta{
+      display:inline-flex; align-items:center; gap:.5rem; justify-content:center;
+      padding: 1rem 2rem;
+      font-weight: 800; font-size:1.125rem;
+      color:white;
+      background: #82368C;
+      border:0; border-radius:0.5rem;
+      cursor:pointer;
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+      transition: transform .25s ease, box-shadow .25s ease, filter .25s ease, background .25s ease;
+      text-decoration:none;
+    }
+    .ctae{
+      display:inline-flex; align-items:center; gap:.5rem; justify-content:center;
+      padding: 1rem 2rem;
+      margin-top:1rem;
+      font-weight: 800; font-size:1.125rem;
+      color:white;
+      background: #10b981;
+      border:0; border-radius:0.5rem;
+      cursor:pointer;
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+      transition: transform .25s ease, box-shadow .25s ease, filter .25s ease, background .25s ease;
+      text-decoration:none;
+    }
+    .cta:hover{
+      transform: translateY(-2px) scale(1.03);
+      filter: brightness(1.05);
+      box-shadow: 0 16px 40px rgba(0,0,0,.45);
+      color:black;
+      background: white;
+    }
+    .ctae:hover{
+      transform: translateY(-2px) scale(1.03);
+      filter: brightness(1.05);
+      box-shadow: 0 16px 40px rgba(0,0,0,.45);
+      color:black;
+      background: white;
+    }
+    .sub{
+      color: rgba(255,255,255,.8);
+      font-size:.9rem;
+    }
+
+    /* ====== Animação "motion.section" (fade + zoom ao entrar na viewport) ====== */
+    .reveal{
+      opacity: 0;
+      transform: scale(.95);
+      transition: opacity .6s ease, transform .6s ease;
+      will-change: opacity, transform;
+    }
+    .reveal.in-view{
+      opacity:1;
+      transform: scale(1);
+    }
+
+    /* Acessibilidade do foco do botão/link */
+    .cta:focus-visible{
+      outline: 3px solid #fff;
+      outline-offset: 3px;
+    }
+
+
+
+    :root{
+      --bg:#0b0b10;
+      --card:#12121a;
+      --txt:#eef2f7;
+      --muted:#aab3c2;
+      --accent:#82368C;
+    }
+  
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; color:var(--txt)}
+  
+    /* ===== Carrossel ===== */
+    .carousel{
+      position:relative;
+      width:100%;
+      overflow:hidden;
+      padding:28px 0;
+      border-top:1px solid #ffffff12;
+      border-bottom:1px solid #ffffff12;
+      color: var(--txt);
+    }
+    /* FIX: deixa o JS controlar tudo no mobile e desktop */
+    .carousel__mask { animation: none !important; }
+    .carousel__track { animation: none !important; }
+    .carousel__mask{
+      animation: slide 15s linear infinite;
+      overflow:hidden;
+      width:100%;
+    }
+
+    @media (max-width: 480px) {
+      .carousel__track {
+        animation-duration: 3s !important; /* ainda mais rápido */
+      }
+    }
+
+    @media (max-width: 768px) {
+      .carousel__track {
+        animation-duration: 3s !important; /* mais rápido no mobile */
+      }
+    }
+    .carousel__track{
+      display:flex;
+      align-items:stretch;
+      gap:20px;
+      /* Largura grande pra não quebrar linha */
+      will-change:transform;
+      animation: scroll-linear 22s linear infinite;
+    }
+    /* Pausa animação se usuário preferir menos movimento */
+    @media (prefers-reduced-motion: reduce){
+      .carousel__track{animation: none;}
+    }
+    /* Pausa ao passar o mouse (opcional) */
+    .carousel:hover .carousel__track{animation-play-state: paused;}
+  
+    @keyframes scroll-linear {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); } /* porque duplicamos os itens no JS */
+    }
+  
+    .student-card{
+      flex:0 0 280px;
+      background:var(--card);
+      border:1px solid #ffffff14;
+      border-radius:16px;
+      padding:18px;
+      display:flex;
+      align-items:center;
+      gap:14px;
+      box-shadow:0 8px 24px rgba(0,0,0,.25);
+    }
+    .student-avatar{
+      width:72px;height:72px;border-radius:999px;flex:0 0 auto;
+      object-fit:cover;border:3px solid #ffffff1c;outline:3px solid #82368C33;
+    }
+    .student-meta{
+      display:flex;flex-direction:column;min-width:0;
+    }
+    .student-name{
+      font-weight:800;letter-spacing:.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    }
+    .student-uni{
+      margin-top:4px;font-size:.95rem;color:var(--txt);line-height:1.2
+    }
+  
+    /* ===== Títulos auxiliares ===== */
+    .wrap{
+      max-width:1200px;margin:0 auto;padding:24px 16px;color: var(--txt);
+    }
+    .section-title{
+      font-size:clamp(1.3rem, 1.6vw + .6rem, 2rem);
+      font-weight:900;
+      letter-spacing:.3px;
+    }
+  
+    /* ===== Sessão 2: Grid de Prints ===== */
+    .prints{
+      padding:28px 0;
+    }
+    .prints-grid{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
+      gap:14px;
+    }
+    .print-card{
+      position:relative;
+      border-radius:14px;
+      overflow:hidden;
+      background:#0e0e15;
+      border:1px solid #ffffff14;
+      box-shadow:0 8px 24px rgba(0,0,0,.25);
+      aspect-ratio: 3/4; /* ajuda a manter grade bonita antes da imagem carregar */
+    }
+    .print-card img{
+      width:100%;height:100%;object-fit:cover;display:block;
+      transition:transform .25s ease;
+    }
+    .print-card:hover img{ transform:scale(1.03); }
+  
+    /* ===== Utilidades ===== */
+    .spacer{height:20px}
+    .section-titl2e{
+      color: var(--txt);
+      font-size: 2.25rem; /* text-4xl */
+      font-weight: 700; /* font-bold */
+      line-height: 1.2;
+      margin-bottom: 1.5rem; /* mb-6 */
+    }
+
+
+    :root{
+      /* Cores */
+      --wa-green:#25D366;
+      --wa-dark:#128C7E;
+      --brand:#82368C;      /* sua cor */
+      --label-bg:#11131a;
+      --label-txt:#eef2f7;
+    }
+    .wa-wrapper{
+      position:fixed;
+      right:18px;
+      bottom:18px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      z-index:9999;
+    }
+    .wa-label{
+      background:var(--label-bg);
+      color:var(--label-txt);
+      font:600 14px/1.2 Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid #ffffff1a;
+      box-shadow:0 10px 24px rgba(0,0,0,.25);
+      white-space:nowrap;
+    }
+    /* Esconde a etiqueta em telas menores */
+    @media (max-width: 640px){
+     
+      .wa-label{ display:none; }
+    }
+  
+    .wa-float{
+      width:64px;height:64px;border-radius:50%;
+      display:grid;place-items:center;
+      background:linear-gradient(135deg, var(--wa-green), var(--wa-dark));
+      color:#fff;text-decoration:none;
+      box-shadow:
+        0 12px 24px rgba(18,140,126,.35),
+        0 0 0 4px #ffffff12,
+        0 0 0 0 var(--brand);
+      border:2px solid #ffffff14;
+      transition: transform .18s ease, box-shadow .18s ease;
+      position:relative;
+    }
+    .wa-float::after{
+      content:"";
+      position:absolute;inset:-8px;
+      border-radius:50%;
+      box-shadow:0 0 0 0 rgba(130,54,140,.45); /* usa sua cor */
+      animation: wa-pulse 1.8s ease-out infinite;
+      pointer-events:none;
+    }
+    .wa-float:hover{
+      transform: translateY(-2px) scale(1.03);
+      box-shadow:
+        0 16px 30px rgba(18,140,126,.4),
+        0 0 0 4px #ffffff1a,
+        0 0 0 6px var(--brand);
+    }
+    @keyframes wa-pulse{
+      0%  { box-shadow:0 0 0 0 rgba(130,54,140,.45); }
+      70% { box-shadow:0 0 0 16px rgba(130,54,140,0); }
+      100%{ box-shadow:0 0 0 0 rgba(130,54,140,0); }
+    }
+    @media (prefers-reduced-motion: reduce){
+      .wa-float{ transition:none }
+      .wa-float::after{ animation:none }
+    }
+
+      /* Grade dos prints */
+  .prints-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+    gap:12px;
+  }
+  .print-card{
+    border:0; padding:0; background:transparent; cursor:zoom-in;
+    border-radius:12px; overflow:hidden; position:relative;
+  }
+  .print-card img{
+    width:100%; height:100%; object-fit:cover; aspect-ratio:1/1; display:block;
+    transition:transform .25s ease;
+  }
+  .print-card:hover img{ transform:scale(1.03); }
+
+  /* Lightbox */
+  .lightbox{
+    position:fixed; inset:0; display:grid; place-items:center;
+    background:rgba(0,0,0,.85);
+    opacity:0; pointer-events:none; transition:opacity .2s ease; z-index:9999;
+  }
+  .lightbox.open{ opacity:1; pointer-events:auto; }
+  .lightbox__img{
+    max-width:90vw; max-height:85vh; border-radius:12px;
+    box-shadow:0 20px 60px rgba(0,0,0,.6);
+    touch-action:pan-x pan-y; /* permite pinch zoom nativo do navegador */
+  }
+  .lightbox__close{
+    position:fixed; top:18px; right:18px; font-size:34px; line-height:1;
+    background:transparent; color:#fff; border:0; cursor:pointer;
+  }
+  .lightbox__nav{
+    position:fixed; top:50%; transform:translateY(-50%);
+    border:0; background:rgba(255,255,255,.12);
+    padding:14px 12px; border-radius:12px; font-size:28px; color:#fff; cursor:pointer;
+    backdrop-filter:blur(4px);
+  }
+  .lightbox__nav:hover{ background:rgba(255,255,255,.25); }
+  .lightbox__nav.prev{ left:12px; }
+  .lightbox__nav.next{ right:12px; }
+
+  @media (max-width:480px){
+    .prints-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .lightbox__nav{ padding:10px 8px; font-size:24px; }
+  }
+
+
+
+
+  /* ===== Mosaico 1x2 (A grande à esquerda; B e C empilhadas à direita) ===== */
+.img-mosaic{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "A B"
+    "A C";
+  gap: 16px;
+  align-items: stretch;
+  margin: 24px 0;
+}
+
+.mosaic-A{ grid-area: A; }
+.mosaic-B{ grid-area: B; }
+.mosaic-C{ grid-area: C; }
+
+.mosaic-item{
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--card);           /* integra com seu tema */
+  box-shadow: 0 10px 24px rgba(0,0,0,.25);
+  isolation: isolate;
+}
+
+/* Faz as imagens preencherem o bloco sem distorcer */
+.mosaic-item img{
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+/* Altura mínima sugerida pra dar presença à coluna da esquerda */
+.mosaic-A{ min-height: clamp(420px, 60vh, 720px); }
+
+/* Em telas menores, empilha tudo em uma coluna */
+@media (max-width: 768px){
+  .img-mosaic{
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "A"
+      "B"
+      "C";
+  }
+  .mosaic-A{ min-height: auto; }
+  .mosaic-item img{ height: auto; }
+}
+
+
+
+
+
+  </style>
+</head>
+<body>
+  <main>
+    <div class="container">
+        <img src="https://d1yei2z3i6k35z.cloudfront.net/10350196/67c0a015c2382_logobatinga.png">
+
+      <h1 class="main-headline">
+        UM MÊS COMPLETO PARA  <span class="highlight-green">DOMINAR FÍSICA</span> NO ENEM
+      </h1>
+
+      <p class="subheadline">
+        1 mês para dominar a matéria que mais reprova no vestibular.
+      </p>
+      <div class="social reveal delay-4">
+        <div class="row"><svg class="ok" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> <span>Questões Comentadas</span></div>
+        
+        <div class="row"><svg class="ok" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> <span>Material Especializado</span></div>
+        
+        <div class="row"><svg class="ok" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> <span>Monitor para tirar as suas súvidas</span></div>
+      </div>
+
+      <div class="video-shell reveal delay-3">
+          <div class="video-card">
+            <div class="aspect-video">
+                <div id="player-root" ></div>
+            </div>
+    
+            <div class="video-stats">
+              <div class="stat-pill">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <span>3.387 visualizações</span>
+              </div>
+              <div class="stat-pill">
+                <svg class="icon" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                <span>98% aprovação</span>
+              </div>
+            </div>
+          </div>
+      </div>
+
+      <div class="reveal delay-4">
+        <button class="btn-cta" id="ctaBtn">QUERO COMPRAR AGORA</button>
+      </div>
+
+      <div class="scroll-indicator">
+        <svg class="chev" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+
+    
+
+    <section class="benefits-section">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <h2 class="section-title">
+                  Por Que Nossa <span class="highlight">Revisão de Física</span>
+                    <br />é a Mais Procurada do ENEM?
+                </h2>
+                <p class="section-subtitle">
+                  Metodologia exclusiva, foco total no que cai na prova e resultados reais que transformam sua nota.
+                </p>
+            </div>
+
+            <div id="benefits-grid" class="benefits-grid"></div>
+        </div>
+    </section>
+
+       <svg width="0" height="0" style="position:absolute; left:-9999px; visibility:hidden" aria-hidden="true">
+    <symbol id="icon-sparkles" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <path d="M12 3l1.8 3.8L18 8.6l-3.2 2.7.9 4.3L12 13.8 8.3 15.6l.9-4.3L6 8.6l4.2-1.8L12 3z"/>
+      <path d="M5 3.5l.9 1.9 2 .9-1.6 1.4.5 2.1L5 8.2 3.2 9l.5-2.1L2 6.3l2-.9.9-1.9z"/>
+      <path d="M19 14l.9 1.9 2 .9-1.6 1.4.5 2.1L19 19.2l-1.8.9.5-2.1L16 16.8l2-.9.9-1.9z"/>
+    </symbol>
+    <symbol id="icon-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <circle cx="12" cy="12" r="9"></circle>
+      <path d="M12 7v5l3 3"></path>
+    </symbol>
+    <symbol id="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+      <path d="M2 4v16a1 1 0 0 0 1 1h6a4 4 0 0 1 4-4"/>
+      <path d="M22 4v16a1 1 0 0 1-1 1h-6a4 4 0 0 0-4-4"/>
+      <path d="M12 4v13"/>
+      <path d="M3 6h8"/>
+      <path d="M13 6h8"/>
+    </symbol>
+
+    <symbol id="icon-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+      <rect x="2" y="4" width="20" height="14" rx="2" ry="2"/>
+      <path d="M8 20h8"/>
+      <path d="M12 18v2"/>
+    </symbol>
+    <symbol id="icon-clipboard-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+      <path d="M9 5h6l1 2h3a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h3l1-2z"/>
+      <path d="M9 14l2 2 4-4"/>
+    </symbol>
+    <symbol id="icon-brain" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+      <path d="M8 7a3 3 0 0 0-3 3v1a3 3 0 0 0 3 3v2a2 2 0 1 0 2 2"/>
+      <path d="M16 7a3 3 0 0 1 3 3v1a3 3 0 0 1-3 3v2a2 2 0 1 1-2 2"/>
+      <path d="M10 4.5a2.5 2.5 0 0 0-2.5 2.5v6a2.5 2.5 0 1 0 5 0v-8A2.5 2.5 0 0 0 10 4.5z"/>
+      <path d="M14 4.5a2.5 2.5 0 0 1 2.5 2.5v6a2.5 2.5 0 1 1-5 0v-8A2.5 2.5 0 0 1 14 4.5z"/>
+    </symbol>
+    <symbol id="icon-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+      <path d="M16 21v-2a4 4 0 0 0-4-4h-4a4 4 0 0 0-4 4v2"></path>
+      <circle cx="8" cy="7" r="4"></circle>
+      <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+      <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+    </symbol>
+    <symbol id="icon-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <path d="M5 12h14"></path>
+      <path d="M12 5l7 7-7 7"></path>
+    </symbol>
+  </svg>
+
+  <div class="wrap">
+    <h2 class="section-titl2e"><span style="color:#C774D6;font-weight:600">Presencial ou </span>Online</h2>
+    <div class="img-mosaic" role="group" aria-label="Galeria em mosaico">
+      <!-- Esquerda: 1 imagem vertical que ocupa duas linhas -->
+      <figure class="mosaic-item mosaic-A">
+        <img src="https://d1yei2z3i6k35z.cloudfront.net/10350196/68a789fc9b080_DSC_0434.jpg" alt="Descrição da imagem vertical" loading="lazy">
+      </figure>
+  
+      <!-- Direita topo -->
+      <figure class="mosaic-item mosaic-B">
+        <img src="https://d1yei2z3i6k35z.cloudfront.net/10350196/67cf3d5012e56_Mask2.png" alt="Descrição da imagem do topo" loading="lazy">
+      </figure>
+  
+      <!-- Direita baixo -->
+      <figure class="mosaic-item mosaic-C">
+        <img src="https://d1yei2z3i6k35z.cloudfront.net/10350196/67cf3c3b7a826_Mask1.png" alt="Descrição da imagem de baixo" loading="lazy">
+      </figure>
+    </div>
+  </div>
+
+<section class="carousel" aria-label="Aprovados em destaque">
+  <div class="wrap">
+    <h2 class="section-titl2e">Conheça alguns dos nossos <span style="color:#C774D6;font-weight:600">aprovados</span></h2>
+  </div>
+  <div class="carousel__mask" aria-hidden="false">
+    <div class="carousel__track" id="carouselTrack" role="list"></div>
+  </div>
+</section>
+
+<div class="spacer"></div>
+
+
+
+
+<!-- Sessão 2: Grid de Prints -->
+<section class="prints" aria-label="Depoimentos de alunos">
+  <div class="wrap">
+    <h2 class="section-titl2e"><span style="color:#C774D6;font-weight:600">Agradecimento</span> dos Alunos</h2>
+    <div class="prints-grid" id="printsGrid"></div>
+  </div>
+</section>
+
+
+  
+
+    <section id="offer-section">
+      <div class="container">
+        <div class="text-center reveal">
+          <h2 class="title">Valores da <span>revisão</span></h2>
+        </div>
+
+        <div class="grid1">
+          <div class="card glass reveal">
+            
+            <div class="card-content">
+              <div>
+                <h4 style="font-size:30px;font-weight:800;color:#82368C;display:flex;align-items:center;gap:8px;margin:0 0 10px">
+                          THE BEST REV
+                </h4>
+                <div class="list-item" ><span>A revisão de Física mais completa do Brasil</span></div>
+                <div style="border-top:1px solid var(--card-border);padding-top:16px; margin-top:20px"></div>
+                <div class="list-item" ><span>🗓️ INÍCIO: 06 de outubro - reta final para o ENEM</span></div>
+                <div class="list-item" ><span>⏰ DURAÇÃO: 1 mês intensivo de imersão total</span></div>
+                <div class="list-item" ><span>📍 FORMATO: Presencial (Maceió/Arapiraca) ou Online para todo Brasil</span></div>
+              </div>
+              <div style="border-top:1px solid var(--card-border);padding-top:16px; margin-top:20px"></div>
+              <h3 style="font-size:28px;font-weight:800;color:white;margin:0 0 16px">O Que Você Vai Receber:</h3>
+              <div class="list" >
+                <div class="list-item"><i class="fa-solid fa-circle-check ok" aria-hidden="true"></i><span>Material impresso de alta qualidade</span></div>
+                <div class="list-item"><i class="fa-solid fa-circle-check ok" aria-hidden="true"></i><span>Mapas mentais separados por tópico</span></div>
+                <div class="list-item"><i class="fa-solid fa-circle-check ok" aria-hidden="true"></i><span>Suporte Técnico 24/7</span></div>
+                <div class="list-item"><i class="fa-solid fa-circle-check ok" aria-hidden="true"></i><span>Plantão de dúvidas <span style="color:#C774D6;font-weight:600"> TODOS OS DIAS </span></span></div>
+                <div class="list-item"><i class="fa-solid fa-circle-check ok" aria-hidden="true"></i><span>Todas as questões do material gravadas</span></div>
+                <div class="list-item"><i class="fa-solid fa-circle-check ok" aria-hidden="true"></i><span>Todas as questões de Física do ENEM comentadas</span></div>
+                <div class="list-item"><i class="fa-solid fa-circle-check ok" aria-hidden="true"></i><span>Acesso à plataforma digital com todo conteúdo gravado</span></div>
+                <div class="list-item"><i class="fa-solid fa-circle-check ok" aria-hidden="true"></i><span>Listas de exercícios com gabaritos comentados</span></div>
+                <div class="list-item"><i class="fa-solid fa-circle-check ok" aria-hidden="true"></i><span>Resumos estratégicos dos temas mais recorrentes</span></div>
+                <div class="list-item"><i class="fa-solid fa-circle-check ok" aria-hidden="true"></i><span>Método Exclusivo AFTER para dominar Física</span></div>
+                <div class="list-item"><i class="fa-solid fa-circle-check ok" aria-hidden="true"></i><span>Suporte total até o dia da prova</span></div>
+                <div class="list-item"><i class="fa-solid fa-circle-check ok" aria-hidden="true"></i><span>100% focado no que realmente cai no ENEM</span></div>
+              </div>
+              <div style="border-top:1px solid var(--card-border); padding-top:16px">
+                <h4 style="font-size:18px; font-weight:800; color: var(--amber); display:flex; align-items:center; gap:8px; margin:0 0 10px">
+                  <i class="fa-solid fa-gift"></i> BÔNUS EXCLUSIVOS:
+                </h4>
+  
+                <div class="list-item" style="color:var(--amber); font-weight:600" ><span>1 Simulado Geral GRATUITO com correção detalhada</span></div>
+                <div class="list-item" style="color:var(--amber); font-weight:600" ><span>Ebook com todas as questões que mais caem no ENEM</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="reveal">
+            <div class="card gold">
+              <div class="card-content" style="text-align:center">
+                <h3 style="font-size:22px;font-weight:800;margin:0 0 12px">PRESENCIAL</h3>
+                <div style="margin-bottom:20px">
+                  <div class="old-price">De R$ 350,00</div>
+                  <div class="price">R$ 280,00</div>
+                  <div class="subprice">ou 3x de R$ 93,34</div>
+                </div>
+                <div style="display:grid;gap:8px;margin-bottom:24px;font-size:14px">
+                  <div style="display:flex;align-items:center;justify-content:center;gap:8px"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i><span>Vagas Limitadas e Protegidas</span></div>
+                  <div style="display:flex;align-items:center;justify-content:center;gap:8px"><i class="fa-regular fa-clock" aria-hidden="true"></i><span>Acesso imediato</span></div>
+                </div>
+                <button class="btn" onclick="window.location.href='https://www.batingacursos.com.br/turma/fisica---revisao-enem-2025/619'" >GARANTIR PRESENCIAL</button>
+                <p class="note">🔒 Pagamento 100% seguro e protegido</p>
+              </div>
+            </div>
+
+            <div class="card green" style="margin-top:20px;text-align:center">
+              <div class="card golde">
+                <div class="card-content" style="text-align:center">
+                  <h3 style="font-size:22px;font-weight:800;margin:0 0 12px">ONLINE</h3>
+                  <div style="margin-bottom:20px">
+                    <div class="olde-price">De R$ 320,00</div>
+                    <div class="price">R$ 220,00</div>
+                    <div class="subprice">ou 3x de R$ 73,00</div>
+                  </div>
+                  <div style="display:grid;gap:8px;margin-bottom:24px;font-size:14px">
+                    <div style="display:flex;align-items:center;justify-content:center;gap:8px"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i><span>Vagas Limitadas e Protegidas</span></div>
+                    <div style="display:flex;align-items:center;justify-content:center;gap:8px"><i class="fa-regular fa-clock" aria-hidden="true"></i><span>Acesso imediato</span></div>
+                  </div>
+                  <button class="btne" onclick="window.location.href='https://www.batingacursos.com.br/turma/fisica---revisao-enem-2025/619'">
+                    GARANTIR ONLINE
+                  </button>
+                  <p class="note">🔒 Pagamento 100% seguro e protegido</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </section>
+    
+
+
+      
+      <!-- ===== Botão Flutuante WhatsApp ===== -->
+<div class="wa-wrapper" aria-label="Atalho para WhatsApp">
+  <a id="waButton" class="wa-float" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+    <!-- Ícone WhatsApp (SVG) -->
+    <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 48 48" width="48px" height="48px" fill-rule="evenodd" clip-rule="evenodd"><path fill="#fff" d="M4.9,43.3l2.7-9.8C5.9,30.6,5,27.3,5,24C5,13.5,13.5,5,24,5c5.1,0,9.8,2,13.4,5.6	C41,14.2,43,18.9,43,24c0,10.5-8.5,19-19,19c0,0,0,0,0,0h0c-3.2,0-6.3-0.8-9.1-2.3L4.9,43.3z"/><path fill="#fff" d="M4.9,43.8c-0.1,0-0.3-0.1-0.4-0.1c-0.1-0.1-0.2-0.3-0.1-0.5L7,33.5c-1.6-2.9-2.5-6.2-2.5-9.6	C4.5,13.2,13.3,4.5,24,4.5c5.2,0,10.1,2,13.8,5.7c3.7,3.7,5.7,8.6,5.7,13.8c0,10.7-8.7,19.5-19.5,19.5c-3.2,0-6.3-0.8-9.1-2.3	L5,43.8C5,43.8,4.9,43.8,4.9,43.8z"/><path fill="#cfd8dc" d="M24,5c5.1,0,9.8,2,13.4,5.6C41,14.2,43,18.9,43,24c0,10.5-8.5,19-19,19h0c-3.2,0-6.3-0.8-9.1-2.3	L4.9,43.3l2.7-9.8C5.9,30.6,5,27.3,5,24C5,13.5,13.5,5,24,5 M24,43L24,43L24,43 M24,43L24,43L24,43 M24,4L24,4C13,4,4,13,4,24	c0,3.4,0.8,6.7,2.5,9.6L3.9,43c-0.1,0.3,0,0.7,0.3,1c0.2,0.2,0.4,0.3,0.7,0.3c0.1,0,0.2,0,0.3,0l9.7-2.5c2.8,1.5,6,2.2,9.2,2.2	c11,0,20-9,20-20c0-5.3-2.1-10.4-5.8-14.1C34.4,6.1,29.4,4,24,4L24,4z"/><path fill="#40c351" d="M35.2,12.8c-3-3-6.9-4.6-11.2-4.6C15.3,8.2,8.2,15.3,8.2,24c0,3,0.8,5.9,2.4,8.4L11,33l-1.6,5.8	l6-1.6l0.6,0.3c2.4,1.4,5.2,2.2,8,2.2h0c8.7,0,15.8-7.1,15.8-15.8C39.8,19.8,38.2,15.8,35.2,12.8z"/><path fill="#fff" fill-rule="evenodd" d="M19.3,16c-0.4-0.8-0.7-0.8-1.1-0.8c-0.3,0-0.6,0-0.9,0	s-0.8,0.1-1.3,0.6c-0.4,0.5-1.7,1.6-1.7,4s1.7,4.6,1.9,4.9s3.3,5.3,8.1,7.2c4,1.6,4.8,1.3,5.7,1.2c0.9-0.1,2.8-1.1,3.2-2.3	c0.4-1.1,0.4-2.1,0.3-2.3c-0.1-0.2-0.4-0.3-0.9-0.6s-2.8-1.4-3.2-1.5c-0.4-0.2-0.8-0.2-1.1,0.2c-0.3,0.5-1.2,1.5-1.5,1.9	c-0.3,0.3-0.6,0.4-1,0.1c-0.5-0.2-2-0.7-3.8-2.4c-1.4-1.3-2.4-2.8-2.6-3.3c-0.3-0.5,0-0.7,0.2-1c0.2-0.2,0.5-0.6,0.7-0.8	c0.2-0.3,0.3-0.5,0.5-0.8c0.2-0.3,0.1-0.6,0-0.8C20.6,19.3,19.7,17,19.3,16z" clip-rule="evenodd"/></svg>
+  </a>
+  <span class="wa-label">Fale no WhatsApp</span>
+</div>
+  
+
+  </main>
+  <!-- ==== INÍCIO: PORTFÓLIO + PESSOAL (vanilla, escopado) ==== -->
+  <style>
+    /* ====== Escopo para evitar conflitos ====== */
+    #portfolio-sections { color:#C774D6; }
+    #portfolio-sections .wrap-outer{max-width:1200px;margin:0 auto;padding:0 24px}
+    #portfolio-sections .center{text-align:center}
+    #portfolio-sections .muted{color:white}
+    #portfolio-sections .title-xl{font-size:clamp(2.5rem,6vw,4.5rem);line-height:1.05;letter-spacing:-.02em;font-weight:300;margin:0 0 12px}
+    #portfolio-sections .title-xl .accent{display:block;color:white;font-weight:600}
+    #portfolio-sections .rule{width:96px;height:3px;background:linear-gradient(90deg,#82368C,#C774D6);border-radius:999px;margin:0 auto}
+    #portfolio-sections .section{padding:64px 0}
+    #portfolio-sections .section--hero{padding:96px 0 40px}
+
+    /* Grid */
+    #portfolio-sections .grid{display:grid;gap:32px}
+    @media(min-width:768px){#portfolio-sections .grid--3{grid-template-columns:repeat(2,1fr)}}
+    @media(min-width:1024px){#portfolio-sections .grid--3{grid-template-columns:repeat(3,1fr)}}
+
+    /* Cards */
+    #portfolio-sections .p-card{position:relative;cursor:pointer;border-radius:24px;background:#fff;box-shadow:0 10px 30px rgba(2,6,23,.12);overflow:hidden;transition:transform .3s ease, box-shadow .3s ease}
+    #portfolio-sections .p-card:hover{transform:translateY(-8px);box-shadow:0 20px 50px rgba(2,6,23,.18)}
+    #portfolio-sections .p-media{aspect-ratio:4/3;overflow:hidden}
+    #portfolio-sections .p-media img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s ease}
+    #portfolio-sections .p-card:hover .p-media img{transform:scale(1.08)}
+    #portfolio-sections .p-overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent,rgba(0,0,0,.6));opacity:0;transition:opacity .35s ease}
+    #portfolio-sections .p-card:hover .p-overlay{opacity:1}
+    #portfolio-sections .p-content{position:absolute;left:0;right:0;bottom:0;padding:18px;color:#fff;transform:translateY(12px);opacity:0;transition:.35s ease}
+    #portfolio-sections .p-card:hover .p-content{transform:none;opacity:1}
+    #portfolio-sections .badge{display:inline-block;padding:6px 10px;background:rgba(255,255,255,.22);backdrop-filter:blur(6px);border-radius:999px;font-size:.8rem}
+
+    /* Modal */
+    #portfolio-sections .imodal{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;padding:24px;z-index:9999}
+    #portfolio-sections .imodal.open{display:flex}
+    #portfolio-sections .imodal__box{max-width:1000px;width:100%;max-height:90vh}
+    #portfolio-sections .imodal__img{width:100%;height:auto;border-radius:16px;box-shadow:0 25px 70px rgba(0,0,0,.6)}
+    #portfolio-sections .imodal__meta{text-align:center;margin-top:16px}
+    #portfolio-sections .imodal__title{color:#fff;font-weight:300;font-size:1.5rem;margin:0 0 4px}
+    #portfolio-sections .imodal__cat{color:#82368C}
+
+    /* ==== Personal Section (adaptado e escopado) ==== */
+    #portfolio-sections .ps-section{position:relative;overflow:hidden;padding:96px 0;background: radial-gradient(900px 500px at 15% 30%, #2A0D30, transparent 60%), radial-gradient(720px 420px at 85% 70%, rgba(168,85,247,.12), transparent 60%), linear-gradient(135deg,#2A0D30,#2A0D30 55%, #2A0D30); color:#fff; border-radius:24px}
+    #portfolio-sections .ps-grid{display:grid;gap:48px;align-items:center}
+    @media(min-width:1024px){#portfolio-sections .ps-grid{grid-template-columns:1fr 1fr}}
+    #portfolio-sections .ps-photo{position:relative;max-width:460px;margin:0 auto}
+    #portfolio-sections .ps-frame{border-radius:28px;padding:6px;background:linear-gradient(135deg,#82368C,#C774D6)}
+    #portfolio-sections .ps-box{border-radius:24px;overflow:hidden;background:#fff;aspect-ratio:1/1}
+    #portfolio-sections .ps-box img{width:100%;height:100%;object-fit:cover}
+    #portfolio-sections .ps-float{position:absolute;display:grid;place-items:center;box-shadow:0 16px 40px rgba(0,0,0,.35);color:#111}
+    #portfolio-sections .ps-float.star{top:-1.2rem;right:-1.2rem;width:72px;height:72px;border-radius:16px;background:linear-gradient(90deg,#facc15,#fb923c);animation:ps-f1 3s ease-in-out infinite}
+    #portfolio-sections .ps-float.rocket{bottom:-1.8rem;left:-1.8rem;width:64px;height:64px;border-radius:999px;background:linear-gradient(90deg,#fb7185,#ef4444);animation:ps-f2 8s ease-in-out infinite 1s}
+    @keyframes ps-f1{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-10px) rotate(5deg)}}
+    @keyframes ps-f2{0%,100%{transform:translate(0,0)}50%{transform:translate(-5px,15px)}}
+    #portfolio-sections .ps-title{font-weight:300;line-height:1.05;letter-spacing:-.02em;font-size:clamp(2rem,5vw,3.5rem);margin:0 0 8px}
+    #portfolio-sections .ps-title .accent{background:linear-gradient(90deg,#C774D6,#C774D6);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:600}
+    #portfolio-sections .ps-bar{width:80px;height:4px;border-radius:999px;background:linear-gradient(90deg,#82368C,#C774D6);margin:16px 0 24px}
+    #portfolio-sections .ps-lead{color:#cbd5e1;line-height:1.8rem;font-size:1.05rem}
+    #portfolio-sections .ps-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;padding-top:24px;border-top:1px solid #82368C; margin-top: 10px;}
+    #portfolio-sections .ps-num{font-size:1.7rem;color:#C774D6;font-weight:300;margin-bottom:4px;text-align:center}
+    #portfolio-sections .ps-lbl{text-align:center;color:#C774D6;text-transform:uppercase;letter-spacing:.12em;font-size:.8rem}
+    .inters{ margin: 3rem;}
+  </style>
+
+  <section id="portfolio-sections" aria-label="Seções de Portfólio e Pessoal">
+    <div class="wrap-outer">
+      <!-- PORTFÓLIO GRID -->
+
+      <!-- PERSONAL SECTION -->
+      <section class="ps-section" aria-label="Seção pessoal">
+        <div class="ps-grid">
+          <div>
+            <div class="ps-photo">
+              <div class="ps-frame">
+                <div class="ps-box">
+                  <img src="https://d1yei2z3i6k35z.cloudfront.net/10350196/68a61cd452c6b_IMG_8601.jpg" alt="Foto de perfil">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="inters">
+            <h2 class="ps-title">Olá, eu sou <span class="accent">Ramilton Batinga</span></h2>
+            <div class="ps-bar" aria-hidden="true"></div>
+            <div class="ps-lead">
+              <p>Professor de Física,<span style="color:#C774D6;font-weight:600"> mestre pela UFAL </span>e CEO do Batinga Cursos. Premiado como<span style="color:#C774D6;font-weight:600"> Professor do Ano</span>  no TikTok Awards, criou o método <strong>AFTER</strong>, que combina didática ativa, treino de alto volume e revisão estratégica. <p>Sua abordagem reduz a complexidade, aumenta a confiança e foca no que mais cai no ENEM. Aulas presenciais e online, materiais objetivos e métricas de evolução garantem consistência e resultado. Física que destrava aprovações.</p><p></p>
+            </div>
+
+            <div class="ps-stats">
+              <div>
+                <div class="ps-num">2.000+</div>
+                <div class="ps-lbl">Alunos aprovados</div>
+              </div>
+              <div>
+                <div class="ps-num">9+</div>
+                <div class="ps-lbl">Anos</div>
+              </div>
+              <div>
+                <div class="ps-num">100%</div>
+                <div class="ps-lbl">Dedicação</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Modal de Imagem -->
+    <div class="imodal" id="imgModal" role="dialog" aria-modal="true" aria-labelledby="imgModalTitle">
+      <div class="imodal__box" onclick="event.stopPropagation()">
+        <img id="imgModalImg" class="imodal__img" alt="Imagem ampliada">
+        <div class="imodal__meta">
+          <h3 id="imgModalTitle" class="imodal__title"></h3>
+          <div id="imgModalCat" class="imodal__cat"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- ==== FIM: PORTFÓLIO + PESSOAL ==== -->
+
+  <footer class="footer" role="contentinfo" aria-label="Rodapé do site" style="padding: 40px 20px;">
+    <div class="footer__container">
+      <div class="footer__bottom">
+        <p class="muted" style="margin:0;font-size:.9375rem;">© <span id="year"></span> Batinga Cursos. Todos os direitos reservados.</p>
+        <nav class="links" aria-label="Links legais do site">
+          <a href="https://www.fisicathebest.com.br/termoseuso">Termos de Uso</a>
+          <a href="https://www.fisicathebest.com.br/privacidade">Política de Privacidade</a>
+        </nav>
+      </div>
+      <div class="disclaimer" role="note" aria-label="Aviso legal">
+        <p><strong>Aviso Legal:</strong> Os resultados apresentados não são garantidos e podem variar de pessoa para pessoa. As informações contidas neste site não constituem promessa de resultados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+
+
+          // ========== Modal para os Prints ==========
+          const imgModal = document.getElementById("imgModal");
+          const imgModalImg = document.getElementById("imgModalImg");
+          const printsCards = document.querySelectorAll(".print-card img");
+
+          // Abre o modal ao clicar em um print
+          printsCards.forEach(img => {
+            img.addEventListener("click", () => {
+              imgModal.classList.add("open");
+              imgModalImg.src = img.src;
+              document.getElementById("imgModalTitle").textContent = "Depoimento";
+              document.getElementById("imgModalCat").textContent = "";
+            });
+          });
+
+          // Fecha o modal ao clicar fora da imagem
+          imgModal.addEventListener("click", () => {
+            imgModal.classList.remove("open");
+            imgModalImg.src = "";
+          });
+
+
+
+
+
+
+
+
+
+    // MELHORIA: Encapsular o código em uma IIFE para evitar poluição do escopo global
+    (() => {
+      document.addEventListener('DOMContentLoaded', function() {
+        // ... (o bloco de configuração do player VSL permanece o mesmo)
+        const editorMode=false;const videoUrl='https://www.youtube.com/watch?v=3Ws2Hbq0Y6U';const playBtnColor='rgba(139, 69, 255, 0.61)';const playerBorderRadius='0';const playerHasBoxShadow=true;const playerBoxShadowColor='rgba(18, 18, 18, 0.9)';const hasProgressBar=true;const progressBarColor='rgba(139, 69, 255, 0.61)';const progressBarHeight='3';const progressBarHasFakeProgress=false;const tempoEmSegundosParaPreencherParteRapidaFake=2;const percentualParaSerPreenchidoRapidamenteFake=90;const hasAutoplay=true;const autoplayVideoUrl='https://www.youtube.com/watch?v=3Ws2Hbq0Y6U';const startAutplayVideoInDifferentTime=false;const timeToStartAutoplayVideo='3';const autoplayBackgroundColor='rgba(139, 69, 255, 0.61)';const autoplayHasBorder=true;const autoplayBorderColor='rgba(255, 255, 255, 1)';const autoplayContentColor='rgba(255, 255, 255, 1)';const autoplayPulsar=false;const hasImgCover=true;const videoCanBePaused=false;const videosIniPlaybackRate=1;const hasHeadline=false;const hasSubheadline=false;const hasCtaBtn=false;const ctaBtnText='BOTÃO DE CTA';const ctaBtnTextColor='rgba(255, 255, 255, 1)';const ctaBtnBackgroundColor='rgba(21, 115, 71, 1)';const ctaBtnBorderColor='rgba(21, 115, 71, 1)';const ctaBtnFontIsBold=true;const ctaBtnWidthIsFull=false;const ctaBtnBorderRadius='1';const ctaBtnHasBoxShadow=false;const ctaBtnPulsar=false;const ctaBtnHasDelay=false;const timeToShowDelayedCtaBtn=3;const hideCtaBtnAgainAfterDelay=false;const timeToHideDelayedCtaBtnAgainAfterDelay=7;const ctaBtnUrlRedirectUser='';const hasSupportBtn=false;const supportBtnText='CONTATO';const supportBtnTextColor='rgba(255, 255, 255, 1)';const supportBtnBackgroundColor='rgba(7, 59, 116, 1)';const supportBtnBorderColor='rgba(7, 59, 116, 1)';const supportBtnFontIsBold=true;const supportBtnWidthIsFull=false;const supportBtnBorderRadius='1';const supportBtnHasBoxShadow=false;const supportBtnPulsar=false;const supportBtnHasDelay=false;const timeToShowDelayedSupportBtn=5;const hideSupportBtnAgainAfterDelay=false;const timeToHideDelayedSupportBtnAgainAfterDelay=10;const supportBtnUrl='';const installFbPixel=false;const fbPixelCode='';const dispararEventosDePixel=false;const hasFbEventosDePixelPersonalizados=false;const eventosDeFbPixelPersonalizados=[];const anotherElsHaveDelayUsingCtaBtnTime=false;const backRedirectExists=false;const backRedirectUrl='';const contadorDeVisExists=false;const contadorDeVisPosition='abaixo';const contadorDeVisNumMin=15;const contadorDeVisNumMax=300;const contadorDeVisVariacaoTime=10;const contadorDeVisText='pessoas estão assistindo esse vídeo agora...';const contadorDeVisFontIsBold=false;const contadorDeVisTextColor='rgba(255, 255, 255, 1)';const contadorDeVisBakgroundColor='rgba(20, 17, 109, 1)';const contadorDeVisDesktopFontSize='15';const contadorDeVisMobileFontSize='13';const contadorDeVisJustGrowNum=false;const toastsData=[];const toastsExists=false;const protectionModeIsOn=false;const continueOrRestartScreenContentColor='rgba(255, 255, 255, 1)';const continueOrRestartScreenBackgroundColor='rgba(111, 3, 237, 1)';const localStorageKey='ezVsl-gsMW%u@x9axIKNHPo$8A';const anotherElsTimeToShowOtherHiddenEls=1;const playerFormato='horizontal';const autoplayElCoversFullPlayer=false;const headlineTextNew='<p style="margin: 0; line-height: 1.5; font-family: Arial">Texto da headline</p>';const subheadlineTextNew='<p style="margin: 0; line-height: 1.5; font-family: Arial">Texto da subheadline</p>';const autoplayType='template';const autoplayTemplate='1';const autoplayImgUrl='';const telaDeConstinuacaoExists=false;const useImgWhenPlayerIsPaused=false;const imgForPausedPlayerUrl='';const fullScreenEnabled=true;const allowUserToChangePlaybackSpeedDuringExibition=false;const gatilhoDeContatoAtivado=false;const gatilhoDeContatoTimeToPauseVideo=2;const gatilhoDeContatoUrlToRedLeadOnClick='';const gatilhoDeContatoTipo='template';const gatilhoDeContatoImgUrl='';const gatilhoDeContatoContainerBorderRadius='1';const gatilhoDeContatoContainerHasBoxShadow=false;const gatilhoDeContatoContainerBoxShadowColor='rgba(18, 18, 18, 1)';const gatilhoDeContatoTemplateBackgroundColor='rgba(255, 255, 255, 1)';const gatilhoDeContatoTemplateText='<p style="margin: 0; line-height: 1.5; font-family: Arial">Texto do template</p>';const gatilhoDeContatoPusar=false
+        let tubeApiIsLoaded=false;const isTouchDevice="ontouchstart"in window||navigator.maxTouchPoints>0;let videoWasAlreadySeem;if(!telaDeConstinuacaoExists||editorMode)videoWasAlreadySeem=false;if(telaDeConstinuacaoExists&&!editorMode)videoWasAlreadySeem=localStorage.getItem(localStorageKey)!==null?true:false;const videoCheckPoint=localStorage.getItem(localStorageKey);const disableMouseRightClick=()=>{document.addEventListener("contextmenu",function(e){e.preventDefault()})};const applyPulseEffect=({element,scale=1.1,duration=750,interval=1500})=>{if(!element)return;const pulseAnimation=()=>{element.style.transition=`transform ${duration}ms ease-in-out`;element.style.transform=`scale(${scale})`;setTimeout(()=>{element.style.transform="scale(1)"},duration)};setInterval(pulseAnimation,interval);pulseAnimation()};const preventUserToOpenDevMode=()=>{document.addEventListener("keydown",function(e){if(e.key==="F12"){e.preventDefault();return false}});document.onkeydown=function(e){if(e.keyCode===123||e.ctrlKey&&e.shiftKey&&(e.keyCode==="I".charCodeAt(0)||e.keyCode==="C".charCodeAt(0)||e.keyCode==="J".charCodeAt(0)||e.keyCode==="S".charCodeAt(0))){return false}}};if(protectionModeIsOn&&!editorMode){disableMouseRightClick();preventUserToOpenDevMode()}const toatsToBeAppendedAoAbrirPagina=toastsData.filter(toast=>toast.createToast==="ao abrir a página");const toatsToBeAppendedDuranteExibicaoDoVideo=toastsData.filter(toast=>toast.createToast==="durante a exibição do vídeo");let container;editorMode?container=document.createElement("div"):container=document.querySelector("#player-root");container.classList.add("playerCreator-general-container");container.style.justifyContent="center";if(playerFormato==="vertical"&&editorMode){container.style.width="100%";container.style.justifySelf="center"}const videoId=videoUrl.trim().split("watch?v=")[1];const autoplayVideoId=autoplayVideoUrl.trim().split("watch?v=")[1];const addYoutubeScript=()=>{const existingScripts=document.getElementsByTagName("script");for(let i=0;i<existingScripts.length;i++){if(existingScripts[i].src==="https://www.youtube.com/iframe_api"){tubeApiIsLoaded=true;return}}const firstScriptTag=document.getElementsByTagName("script")[0];const youtubeScript=document.createElement("script");youtubeScript.src="https://www.youtube.com/iframe_api";firstScriptTag.parentNode.insertBefore(youtubeScript,firstScriptTag)};
+        
+        // ===============================================
+        // ANIMAÇÃO DE SCROLL (REVEAL)
+        // ===============================================
+        const revealObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('in');
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12, rootMargin: "-40px 0px" });
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+        // ===============================================
+        // SCROLL SUAVE PARA ÂNCORAS
+        // ===============================================
+        function smoothScrollTo(elementId) {
+          const target = document.getElementById(elementId);
+          if (target) {
+              target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
+        document.getElementById('ctaBtn').addEventListener('click', () => smoothScrollTo('offer-section'));
+        
+        
+        
+        
+        
+        
+        // ===============================================
+        // CARROSSEL: NAVEGAÇÃO, INDICADORES E PROGRESSO
+        // ===============================================
+        const wrapper = document.getElementById('carouselWrapper');
+        const track = document.getElementById('carouselTrack');
+        const items = track ? Array.from(track.children) : [];
+        const btnPrev = document.getElementById('btnPrev');
+        const btnNext = document.getElementById('btnNext');
+        const indicatorsContainer = document.querySelector('.carousel-indicators');
+        const bar = document.getElementById('carouselBar');
+        
+        if (track && items.length > 0) {
+          let index = 0;
+          const autoplayMs = 400;
+          let autoplayTimer = null;
+          let paused = false;
+
+          indicatorsContainer.innerHTML = items.map((_, i) => 
+              `<button role="tab" class="indicator" data-i="${i}" aria-label="Ir para o slide ${i + 1}"></button>`
+          ).join('');
+          const indicators = Array.from(indicatorsContainer.children);
+
+          function getSlideStep() {
+              const el = items[0];
+              const styles = getComputedStyle(el);
+              const mr = parseFloat(styles.marginRight || '0');
+              return el.offsetWidth + mr;
+          }
+
+          function goTo(i, { animate = true } = {}) {
+              const total = items.length;
+              index = (i + total) % total;
+              const step = getSlideStep();
+
+              track.style.transition = animate ? 'transform .3s ease' : 'none';
+              track.style.transform = `translateX(${-index * step}px)`;
+              
+              indicators.forEach((dot, di) => {
+                  dot.classList.toggle('active', di === index);
+                  dot.setAttribute('aria-selected', di === index);
+              });
+              if (autoplayTimer) resetProgress();
+          }
+
+          function next() { goTo(index + 1); }
+          function prev() { goTo(index - 1); }
+
+          function startProgress() {
+              if (!bar) return;
+              bar.style.transition = 'none';
+              bar.style.width = '0%';
+              requestAnimationFrame(() => {
+                  requestAnimationFrame(() => {
+                      bar.style.transition = `width ${autoplayMs}ms linear`;
+                      bar.style.width = '100%';
+                  });
+              });
+          }
+          function stopProgress() {
+              if (!bar) return;
+              bar.style.width = getComputedStyle(bar).width;
+              bar.style.transition = 'none';
+          }
+          function resetProgress() {
+              if (paused) return;
+              stopProgress();
+              requestAnimationFrame(startProgress);
+          }
+
+          function startAutoplay() {
+              stopAutoplay();
+              if (paused) return;
+              autoplayTimer = setInterval(next, autoplayMs);
+              resetProgress();
+          }
+          function stopAutoplay() {
+              if (autoplayTimer) clearInterval(autoplayTimer);
+              autoplayTimer = null;
+              stopProgress();
+          }
+          
+          btnPrev.addEventListener('click', () => { prev(); startAutoplay(); });
+          btnNext.addEventListener('click', () => { next(); startAutoplay(); });
+          indicators.forEach(dot => {
+              dot.addEventListener('click', () => {
+                  const i = parseInt(dot.getAttribute('data-i'), 10) || 0;
+                  goTo(i);
+                  startAutoplay();
+              });
+          });
+
+          wrapper.addEventListener('mouseenter', () => { paused = true; stopAutoplay(); });
+          wrapper.addEventListener('mouseleave', () => { paused = false; startAutoplay(); });
+          wrapper.addEventListener('touchstart', () => { paused = true; stopAutoplay(); }, { passive: true });
+          wrapper.addEventListener('touchend', () => { setTimeout(() => { paused = false; startAutoplay(); }, 300); });
+
+          window.addEventListener('resize', () => goTo(index, { animate: false }));
+          document.addEventListener('visibilitychange', () => {
+              document.hidden ? stopAutoplay() : startAutoplay();
+          });
+
+          goTo(0, { animate: false });
+          startAutoplay();
+        }
+      
+
+        
+
+      });
+    })();
+
+    // CORREÇÃO: Adicionado listener para garantir que o DOM esteja carregado
+    document.addEventListener('DOMContentLoaded', function() {
+        // Todo o script original vai aqui dentro
+        const editorMode=false;const videoUrl='https://www.youtube.com/watch?v=3Ws2Hbq0Y6U';const playBtnColor='#82368C';const playerBorderRadius='0';const playerHasBoxShadow=true;const playerBoxShadowColor='rgba(18, 18, 18, 0.9)';const hasProgressBar=true;const progressBarColor='black';const progressBarHeight='3';const progressBarHasFakeProgress=false;const tempoEmSegundosParaPreencherParteRapidaFake=2;const percentualParaSerPreenchidoRapidamenteFake=90;const hasAutoplay=true;const autoplayVideoUrl='https://www.youtube.com/watch?v=3Ws2Hbq0Y6U';const startAutplayVideoInDifferentTime=false;const timeToStartAutoplayVideo='3';const autoplayBackgroundColor='#82368C';const autoplayHasBorder=true;const autoplayBorderColor='rgba(255, 255, 255, 1)';const autoplayContentColor='rgba(255, 255, 255, 1)';const autoplayPulsar=false;const hasImgCover=true;const videoCanBePaused=false;const videosIniPlaybackRate=1;const hasHeadline=false;const hasSubheadline=false;;const hasCtaBtn=false;const ctaBtnText='BOTÃO DE CTA';const ctaBtnTextColor='rgba(255, 255, 255, 1)';const ctaBtnBackgroundColor='rgba(21, 115, 71, 1)';const ctaBtnBorderColor='rgba(21, 115, 71, 1)';const ctaBtnFontIsBold=true;const ctaBtnWidthIsFull=false;const ctaBtnBorderRadius='1';const ctaBtnHasBoxShadow=false;const ctaBtnPulsar=false;const ctaBtnHasDelay=false;const timeToShowDelayedCtaBtn=3;const hideCtaBtnAgainAfterDelay=false;const timeToHideDelayedCtaBtnAgainAfterDelay=7;const ctaBtnUrlRedirectUser='';const hasSupportBtn=false;const supportBtnText='CONTATO';const supportBtnTextColor='rgba(255, 255, 255, 1)';const supportBtnBackgroundColor='rgba(7, 59, 116, 1)';const supportBtnBorderColor='rgba(7, 59, 116, 1)';const supportBtnFontIsBold=true;const supportBtnWidthIsFull=false;const supportBtnBorderRadius='1';const supportBtnHasBoxShadow=false;const supportBtnPulsar=false;const supportBtnHasDelay=false;const timeToShowDelayedSupportBtn=5;const hideSupportBtnAgainAfterDelay=false;const timeToHideDelayedSupportBtnAgainAfterDelay=10;const supportBtnUrl='';const installFbPixel=false;const fbPixelCode='';const dispararEventosDePixel=false;const hasFbEventosDePixelPersonalizados=false;const eventosDeFbPixelPersonalizados=[];const anotherElsHaveDelayUsingCtaBtnTime=false;const backRedirectExists=false;const backRedirectUrl='';const contadorDeVisExists=false;const contadorDeVisPosition='abaixo';const contadorDeVisNumMin=15;const contadorDeVisNumMax=300;const contadorDeVisVariacaoTime=10;const contadorDeVisText='pessoas estão assistindo esse vídeo agora...';const contadorDeVisFontIsBold=false;const contadorDeVisTextColor='rgba(255, 255, 255, 1)';const contadorDeVisBakgroundColor='rgba(20, 17, 109, 1)';const contadorDeVisDesktopFontSize='15';const contadorDeVisMobileFontSize='13';const contadorDeVisJustGrowNum=false;const toastsData=[];const toastsExists=false;const protectionModeIsOn=false;const continueOrRestartScreenContentColor='rgba(255, 255, 255, 1)';const continueOrRestartScreenBackgroundColor='rgba(111, 3, 237, 1)';const localStorageKey='ezVsl-gsMW%u@x9axIKNHPo$8A';const anotherElsTimeToShowOtherHiddenEls=1;const playerFormato='horizontal';const autoplayElCoversFullPlayer=false;const headlineTextNew='<p style="margin: 0; line-height: 1.5; font-family: Arial">Texto da headline</p>';const subheadlineTextNew='<p style="margin: 0; line-height: 1.5; font-family: Arial">Texto da subheadline</p>';const autoplayType='template';const autoplayTemplate='1';const autoplayImgUrl='';const telaDeConstinuacaoExists=false;const useImgWhenPlayerIsPaused=false;const imgForPausedPlayerUrl='';const fullScreenEnabled=true;const allowUserToChangePlaybackSpeedDuringExibition=false;const gatilhoDeContatoAtivado=false;const gatilhoDeContatoTimeToPauseVideo=2;const gatilhoDeContatoUrlToRedLeadOnClick='';const gatilhoDeContatoTipo='template';const gatilhoDeContatoImgUrl='';const gatilhoDeContatoContainerBorderRadius='1';const gatilhoDeContatoContainerHasBoxShadow=false;const gatilhoDeContatoContainerBoxShadowColor='rgba(18, 18, 18, 1)';const gatilhoDeContatoTemplateBackgroundColor='rgba(255, 255, 255, 1)';const gatilhoDeContatoTemplateText='<p style="margin: 0; line-height: 1.5; font-family: Arial">Texto do template</p>';const gatilhoDeContatoPusar=false
+        const ctaBtnDesktopFontSizeNew="20";const ctaBtnMobileFontSizeNew="18";const supportBtnDesktopFontSizeNew="20";const supportBtnMobileFontSizeNew="18";let tubeApiIsLoaded=false;const isTouchDevice="ontouchstart"in window||navigator.maxTouchPoints>0;let videoWasAlreadySeem;if(!telaDeConstinuacaoExists||editorMode)videoWasAlreadySeem=false;if(telaDeConstinuacaoExists&&!editorMode)videoWasAlreadySeem=localStorage.getItem(localStorageKey)!==null?true:false;const videoCheckPoint=localStorage.getItem(localStorageKey);const disableMouseRightClick=()=>{document.addEventListener("contextmenu",function(e){e.preventDefault()})};const applyPulseEffect=({element,scale=1.1,duration=750,interval=1500})=>{if(!element)return;const pulseAnimation=()=>{element.style.transition=`transform ${duration}ms ease-in-out`;element.style.transform=`scale(${scale})`;setTimeout(()=>{element.style.transform="scale(1)"},duration)};setInterval(pulseAnimation,interval);pulseAnimation()};const preventUserToOpenDevMode=()=>{document.addEventListener("keydown",function(e){if(e.key==="F12"){e.preventDefault();return false}});document.onkeydown=function(e){if(e.keyCode===123||e.ctrlKey&&e.shiftKey&&(e.keyCode==="I".charCodeAt(0)||e.keyCode==="C".charCodeAt(0)||e.keyCode==="J".charCodeAt(0)||e.keyCode==="S".charCodeAt(0))){return false}}};if(protectionModeIsOn&&!editorMode){disableMouseRightClick();preventUserToOpenDevMode()}const toatsToBeAppendedAoAbrirPagina=toastsData.filter(toast=>toast.createToast==="ao abrir a página");const toatsToBeAppendedDuranteExibicaoDoVideo=toastsData.filter(toast=>toast.createToast==="durante a exibição do vídeo");let container;editorMode?container=document.createElement("div"):container=document.querySelector("#player-root");container.classList.add("playerCreator-general-container");container.style.justifyContent="center";if(playerFormato==="vertical"&&editorMode){container.style.width="100%";container.style.justifySelf="center"}const videoId=videoUrl.trim().split("watch?v=")[1];const autoplayVideoId=autoplayVideoUrl.trim().split("watch?v=")[1];const addYoutubeScript=()=>{const existingScripts=document.getElementsByTagName("script");for(let i=0;i<existingScripts.length;i++){if(existingScripts[i].src==="https://www.youtube.com/iframe_api"){tubeApiIsLoaded=true;return}}const firstScriptTag=document.getElementsByTagName("script")[0];const youtubeScript=document.createElement("script");youtubeScript.src="https://www.youtube.com/iframe_api";firstScriptTag.parentNode.insertBefore(youtubeScript,firstScriptTag)};const toastCreator=({text,displayDurationTimeInSeconds,showMultTimes,intervalTime,stopShowingCycleAfterSomeTime,timeInSecondsToStopShowingCycle,hasBoxShadow,borderColor,contentColor,backgroundColor,isBold,textStartWithDynamicNum,iniDynamicNumValue,numMin,numMax})=>{const createCloseBtn=()=>{const svgNS="http://www.w3.org/2000/svg";const svg=document.createElementNS(svgNS,"svg");svg.setAttribute("width","16");svg.setAttribute("height","16");svg.setAttribute("fill","currentColor");svg.setAttribute("class","bi bi-x-lg");svg.setAttribute("viewBox","0 0 16 16");const path=document.createElementNS(svgNS,"path");path.setAttribute("d","M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z");svg.appendChild(path);return svg};const container=document.createElement("div");container.classList.add("toast-el");container.style.padding="0.75rem";if(hasBoxShadow)container.style.boxShadow="0 0.5rem 1rem rgba(0,0,0,.15)";container.style.borderRadius="0.25rem";container.style.border=`1px solid ${borderColor?borderColor:"rgba(0, 0, 0, .1)"}`;container.style.color=`${contentColor?contentColor:"#000000"}`;container.style.backgroundColor=`${backgroundColor?backgroundColor:"rgba(255, 255, 255, .85)"}`;container.style.width="100%";container.style.display="flex";container.style.justifyContent="space-between";container.style.alignItems="center";if(isBold)container.style.fontWeight="500";const textDiv=document.createElement("div");textDiv.textContent=`${textStartWithDynamicNum?`${iniDynamicNumValue} `:""} ${text}`;const closeBtnDiv=createCloseBtn();closeBtnDiv.style.cursor="pointer";closeBtnDiv.addEventListener("click",()=>container.style.display="none");container.appendChild(textDiv);container.appendChild(closeBtnDiv);let intervalId;container.style.opacity="1";container.style.transition="opacity 0.5s ease";const hideContainerSmoothly=()=>{container.style.opacity="0";setTimeout(()=>{container.style.display="none"},500)};const showContainerSmoothly=()=>{container.style.display="flex";setTimeout(()=>{container.style.opacity="1"},10)};if(!showMultTimes){setTimeout(hideContainerSmoothly,displayDurationTimeInSeconds*1e3)}if(showMultTimes){setTimeout(hideContainerSmoothly,displayDurationTimeInSeconds*1e3);const cycleTime=(displayDurationTimeInSeconds+intervalTime)*1e3;intervalId=setInterval(()=>{if(textStartWithDynamicNum){iniDynamicNumValue=Math.floor(Math.random()*(numMax-numMin+1))+numMin;textDiv.textContent=`${iniDynamicNumValue} ${text}`}showContainerSmoothly();setTimeout(hideContainerSmoothly,displayDurationTimeInSeconds*1e3)},cycleTime)}if(stopShowingCycleAfterSomeTime){setTimeout(()=>{clearInterval(intervalId);hideContainerSmoothly()},timeInSecondsToStopShowingCycle*1e3)}showContainerSmoothly();return container};const taostsContainer=document.createElement("div");taostsContainer.style.display="flex";taostsContainer.style.flexDirection="column";taostsContainer.style.position="fixed";taostsContainer.style.bottom="10px";taostsContainer.style.right="35px";taostsContainer.style.zIndex="9999";taostsContainer.style.gap="0.5rem";taostsContainer.style.fontSize="14px";document.body.appendChild(taostsContainer);if(!editorMode){if(toatsToBeAppendedAoAbrirPagina.length>0&&toastsExists){toatsToBeAppendedAoAbrirPagina.forEach(toastInfo=>{const toastEl=toastCreator(toastInfo);taostsContainer.appendChild(toastEl)})}}const backredirectHandler=url=>{const back_redirect_back_link=url+location.search;history.pushState({},"",location.href);history.pushState({},"",location.href);window.addEventListener("popstate",function(event){if(event.state){setTimeout(function(){location.href=back_redirect_back_link},1)}},false)};if(!editorMode){if(backRedirectExists)backredirectHandler(backRedirectUrl)}const restartOrContinueVideoScreenCreator=()=>{const playBtnCreator=()=>{const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");svg.setAttribute("xmlns","http://www.w3.org/2000/svg");svg.setAttribute("width","16");svg.setAttribute("height","16");svg.setAttribute("fill","currentColor");svg.setAttribute("class","bi bi-play-circle");svg.setAttribute("viewBox","0 0 16 16");const path1=document.createElementNS("http://www.w3.org/2000/svg","path");path1.setAttribute("d","M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16");const path2=document.createElementNS("http://www.w3.org/2000/svg","path");path2.setAttribute("d","M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445");svg.appendChild(path1);svg.appendChild(path2);return svg};const restartBtnCreator=()=>{const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");svg.setAttribute("xmlns","http://www.w3.org/2000/svg");svg.setAttribute("width","16");svg.setAttribute("height","16");svg.setAttribute("fill","currentColor");svg.setAttribute("class","bi bi-arrow-counterclockwise");svg.setAttribute("viewBox","0 0 16 16");const path1=document.createElementNS("http://www.w3.org/2000/svg","path");path1.setAttribute("fill-rule","evenodd");path1.setAttribute("d","M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2z");const path2=document.createElementNS("http://www.w3.org/2000/svg","path");path2.setAttribute("d","M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466");svg.appendChild(path1);svg.appendChild(path2);return svg};const container=document.createElement("div");container.style.position="absolute";container.style.height="100%";container.style.width="100%";container.style.display="flex";container.style.flexDirection="column";container.style.fontWeight="600";container.style.pointerEvents="none";container.style.color=continueOrRestartScreenContentColor;container.style.backgroundColor=continueOrRestartScreenBackgroundColor;container.style.justifyContent="center";const centeredTextDiv=document.createElement("div");centeredTextDiv.classList.add("contionueScreen-centeredTextDiv-flag");centeredTextDiv.style.marginBottom="2rem";centeredTextDiv.textContent="Você já começou a assistir este vídeo";container.appendChild(centeredTextDiv);const contentContainer=document.createElement("div");contentContainer.style.display="flex";contentContainer.style.width="100%";const containerRestartLeft=document.createElement("div");containerRestartLeft.classList.add("contionueScreen-containerRestartLeft-flag");containerRestartLeft.style.width="50%";containerRestartLeft.style.display="flex";containerRestartLeft.style.flexDirection="column";containerRestartLeft.style.justifyContent="center";containerRestartLeft.style.padding="0 0.25rem 0 0";containerRestartLeft.style.alignItems="center";contentContainer.appendChild(containerRestartLeft);const containerRestartLeftIcon=restartBtnCreator();containerRestartLeftIcon.style.width="55px";const containerRestartLeftText=document.createElement("div");containerRestartLeftText.textContent="Começar do início";containerRestartLeft.appendChild(containerRestartLeftIcon);containerRestartLeft.appendChild(containerRestartLeftText);const containerContinueRight=document.createElement("div");containerContinueRight.classList.add("contionueScreen-containerContinueRight-flag");containerContinueRight.style.width="50%";containerContinueRight.style.display="flex";containerContinueRight.style.flexDirection="column";containerContinueRight.style.justifyContent="center";containerContinueRight.style.padding="0 0 0 0.25rem";containerContinueRight.style.alignItems="center";contentContainer.appendChild(containerContinueRight);const containerContinueRightIcon=playBtnCreator();containerContinueRightIcon.style.width="55px";const containerContinueRightText=document.createElement("div");containerContinueRightText.textContent="Continuar assistindo";containerContinueRight.appendChild(containerContinueRightIcon);containerContinueRight.appendChild(containerContinueRightText);container.appendChild(contentContainer);return container};const unmuteElCreator=autoplayContentColor=>{const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");svg.setAttribute("version","1.1");svg.setAttribute("xmlns","http://www.w3.org/2000/svg");svg.setAttribute("xmlns:xlink","http://www.w3.org/1999/xlink");svg.setAttribute("x","0px");svg.setAttribute("y","0px");svg.setAttribute("width","96.75px");svg.setAttribute("height","82.563px");svg.setAttribute("viewBox","7.999 9.062 46.75 32.563");svg.setAttribute("enable-background","new 7.999 9.062 46.75 32.563");svg.setAttribute("xml:space","preserve");svg.setAttribute("fill",autoplayContentColor.trim());const g=document.createElementNS("http://www.w3.org/2000/svg","g");g.setAttribute("class","adjustable fg");const path1=document.createElementNS("http://www.w3.org/2000/svg","path");path1.setAttribute("d","M53.249,39.616c-0.186,0-0.371-0.051-0.537-0.157l-43.5-27.75c-0.466-0.297-0.603-0.916-0.306-1.381c0.298-0.466,0.917-0.601,1.381-0.306l43.5,27.75c0.467,0.297,0.604,0.916,0.307,1.381C53.901,39.453,53.579,39.616,53.249,39.616z");const path2=document.createElementNS("http://www.w3.org/2000/svg","path");path2.setAttribute("d","M48.896,33.467l1.699,1.085c3.497-7.791,2.073-17.271-4.313-23.659c-0.391-0.391-1.023-0.391-1.414,0s-0.391,1.023,0,1.414C50.581,18.019,51.913,26.463,48.896,33.467z");const path3=document.createElementNS("http://www.w3.org/2000/svg","path");path3.setAttribute("d","M46.926,36.956c-0.612,0.863-1.286,1.695-2.059,2.469c-0.392,0.391-0.392,1.023,0,1.414c0.194,0.195,0.45,0.293,0.707,0.293c0.256,0,0.512-0.098,0.706-0.293c0.878-0.878,1.642-1.824,2.333-2.807L46.926,36.956z");const path4=document.createElementNS("http://www.w3.org/2000/svg","path");path4.setAttribute("d","M42.543,29.415l1.777,1.135c1.545-5.315,0.229-11.293-3.953-15.476c-0.392-0.391-1.023-0.391-1.414,0c-0.392,0.391-0.392,1.023,0,1.414C42.454,19.987,43.639,24.925,42.543,29.415z");const path5=document.createElementNS("http://www.w3.org/2000/svg","path");path5.setAttribute("d","M41,33.174c-0.563,0.94-1.235,1.837-2.047,2.646c-0.391,0.392-0.391,1.023,0,1.414c0.195,0.195,0.451,0.293,0.707,0.293s0.512-0.098,0.707-0.293c0.916-0.914,1.676-1.924,2.317-2.984L41,33.174z");const path6=document.createElementNS("http://www.w3.org/2000/svg","path");path6.setAttribute("d","M35.771,25.094l2.003,1.277c0.012-0.203,0.029-0.404,0.029-0.609c0-3.079-1.2-5.974-3.381-8.153c-0.391-0.391-1.022-0.391-1.414,0c-0.391,0.391-0.391,1.023,0,1.414C34.652,20.666,35.613,22.802,35.771,25.094z");const path7=document.createElementNS("http://www.w3.org/2000/svg","path");path7.setAttribute("d","M35.084,29.401c-0.474,1.145-1.172,2.197-2.076,3.1c-0.391,0.391-0.391,1.023,0,1.414c0.195,0.195,0.451,0.293,0.707,0.293c0.257,0,0.513-0.098,0.707-0.293c1.008-1.006,1.795-2.17,2.361-3.43L35.084,29.401z");const path8=document.createElementNS("http://www.w3.org/2000/svg","path");path8.setAttribute("d","M20.921,20.366h-6.423c-0.553,0-1,0.508-1,1.135v8.229c0,0.627,0.447,1.135,1,1.135h7.375l6.25,5.875V24.96L20.921,20.366z");const path9=document.createElementNS("http://www.w3.org/2000/svg","polygon");path9.setAttribute("points","28.124,20.215 28.124,14.991 24.635,17.99");g.appendChild(path1);g.appendChild(path2);g.appendChild(path3);g.appendChild(path4);g.appendChild(path5);g.appendChild(path6);g.appendChild(path7);g.appendChild(path8);g.appendChild(path9);svg.appendChild(g);return svg};function createPlayButtonSVG(autoplayContentColor){const SVG_NS="http://www.w3.org/2000/svg";const svg=document.createElementNS(SVG_NS,"svg");svg.setAttribute("xmlns",SVG_NS);svg.setAttribute("viewBox","0 0 512 512");svg.setAttribute("fill",autoplayContentColor.trim());const path=document.createElementNS(SVG_NS,"path");path.setAttribute("d","M484 256A228 228 0 1 0 28 256a228 228 0 1 0 456 0zM56 256a200 200 0 1 1 400 0A200 200 0 1 1 56 256zM188.3 147.1c7.6-4.2 16.8-4.1 24.3 .5l144 88c7.1 4.4 11.5 12.1 11.5 20.5s-4.4 16.1-11.5 20.5l-144 88c-7.4 4.5-16.7 4.7-24.3 .5s-12.3-12.2-12.3-20.9l0-176c0-8.7 4.7-16.7 12.3-20.9z");svg.appendChild(path);return svg}const unmuteModel1Creator=(autoplayBackgroundColor,autoplayPulsar)=>{const generalContainer=document.createElement("div");generalContainer.style.display="flex";generalContainer.style.alignItems="center";generalContainer.style.justifyContent="center";generalContainer.style.width="100%";generalContainer.style.height="100%";generalContainer.style.justifyContent="center";generalContainer.style.position="absolute";generalContainer.style.zIndex="105";generalContainer.style.pointerEvents="none";generalContainer.id="unmuteEl-flag";const contentContainer=document.createElement("div");contentContainer.style.padding="0.5rem";if(autoplayHasBorder&&!autoplayElCoversFullPlayer)contentContainer.style.border=`${autoplayBorderColor.trim()} solid 1px`;contentContainer.style.display="flex";contentContainer.style.flexDirection="column";contentContainer.style.alignItems="center";contentContainer.style.justifyContent="center";contentContainer.style.borderRadius="5px";contentContainer.style.backgroundColor=autoplayBackgroundColor.trim();contentContainer.style.pointerEvents="none";contentContainer.style.width=autoplayElCoversFullPlayer?"100%":"80%";contentContainer.style.maxWidth=autoplayElCoversFullPlayer?"100%":"325px";contentContainer.style.maxHeight=autoplayElCoversFullPlayer?"100%":"90%";if(autoplayElCoversFullPlayer)contentContainer.style.height="100%";if(autoplayPulsar&&!autoplayElCoversFullPlayer)contentContainer.classList.add("player-unmute-el-pulsar");const unmuteStampEl=unmuteElCreator(autoplayContentColor);unmuteStampEl.style.width="90px";unmuteStampEl.classList.add("autoplay-model1-soundel");const text1=document.createElement("div");text1.classList.add("playerCreator-autoplay-fontsize-controller","btn-mobileViwerModeAutoplayFontSize");text1.textContent="Seu vídeo já começou";text1.style.color=autoplayContentColor.trim();text1.style.fontWeight="700";text1.style.fontSize="16px";const text2=document.createElement("div");text2.classList.add("playerCreator-autoplay-fontsize-controller","btn-mobileViwerModeAutoplayFontSize");text2.textContent="Clique para ouvir";text2.style.color=autoplayContentColor.trim();text2.style.fontWeight="700";text2.style.fontSize="16px";contentContainer.appendChild(text1);contentContainer.appendChild(unmuteStampEl);contentContainer.appendChild(text2);generalContainer.appendChild(contentContainer);return generalContainer};const unmuteModel2Creator=(autoplayBackgroundColor,autoplayPulsar)=>{const generalContainer=document.createElement("div");generalContainer.style.display="flex";generalContainer.style.alignItems="center";generalContainer.style.justifyContent="center";generalContainer.style.width="100%";generalContainer.style.height="100%";generalContainer.style.justifyContent="center";generalContainer.style.position="absolute";generalContainer.style.zIndex="105";generalContainer.style.pointerEvents="none";generalContainer.id="unmuteEl-flag";const contentContainer=document.createElement("div");contentContainer.style.padding="0.5rem";if(autoplayHasBorder&&!autoplayElCoversFullPlayer)contentContainer.style.border=`${autoplayBorderColor.trim()} solid 1px`;contentContainer.style.display="flex";contentContainer.style.flexDirection="column";contentContainer.style.alignItems="center";contentContainer.style.justifyContent="center";contentContainer.style.borderRadius="5px";contentContainer.style.backgroundColor=autoplayBackgroundColor.trim();contentContainer.style.pointerEvents="none";contentContainer.style.width=autoplayElCoversFullPlayer?"100%":"80%";contentContainer.style.maxWidth=autoplayElCoversFullPlayer?"100%":"150px";contentContainer.style.maxHeight=autoplayElCoversFullPlayer?"100%":"90%";if(autoplayElCoversFullPlayer)contentContainer.style.height="100%";if(autoplayPulsar&&!autoplayElCoversFullPlayer)contentContainer.classList.add("player-unmute-el-pulsar");const unmuteStampEl=unmuteElCreator(autoplayContentColor);unmuteStampEl.style.width="65px";unmuteStampEl.classList.add("autoplay-model1-soundel");unmuteStampEl.style.margin="0px";unmuteStampEl.style.height="fit-content";const text1=document.createElement("div");text1.classList.add("playerCreator-autoplay-fontsize-controller","btn-mobileViwerModeAutoplayFontSize");text1.style.color=autoplayContentColor.trim();text1.style.fontWeight="700";text1.style.fontSize="16px";text1.style.marginBottom="0.25rem";const text1p1=document.createElement("div");text1p1.textContent="Clique";const text1p2=document.createElement("div");text1p2.textContent="para ouvir";text1.appendChild(text1p1);text1.appendChild(text1p2);contentContainer.appendChild(text1);contentContainer.appendChild(unmuteStampEl);generalContainer.appendChild(contentContainer);return generalContainer};const unmuteModel3Creator=(autoplayBackgroundColor,autoplayPulsar)=>{const generalContainer=document.createElement("div");generalContainer.style.display="flex";generalContainer.style.alignItems="center";generalContainer.style.justifyContent="center";generalContainer.style.width="100%";generalContainer.style.height="100%";generalContainer.style.justifyContent="center";generalContainer.style.position="absolute";generalContainer.style.zIndex="105";generalContainer.style.pointerEvents="none";generalContainer.id="unmuteEl-flag";const contentContainer=document.createElement("div");contentContainer.style.padding="0.5rem";if(autoplayHasBorder&&!autoplayElCoversFullPlayer)contentContainer.style.border=`${autoplayBorderColor.trim()} solid 1px`;contentContainer.style.display="flex";contentContainer.style.flexDirection="column";contentContainer.style.alignItems="center";contentContainer.style.justifyContent="center";contentContainer.style.borderRadius="5px";contentContainer.style.backgroundColor=autoplayBackgroundColor.trim();contentContainer.style.pointerEvents="none";contentContainer.style.width=autoplayElCoversFullPlayer?"100%":"80%";contentContainer.style.maxWidth=autoplayElCoversFullPlayer?"100%":"325px";contentContainer.style.maxHeight=autoplayElCoversFullPlayer?"100%":"90%";if(autoplayElCoversFullPlayer)contentContainer.style.height="100%";if(autoplayPulsar&&!autoplayElCoversFullPlayer)contentContainer.classList.add("player-unmute-el-pulsar");const unmuteStampEl=unmuteElCreator(autoplayContentColor);unmuteStampEl.style.width="45px";unmuteStampEl.classList.add("autoplay-model1-soundel");unmuteStampEl.style.margin="0px";unmuteStampEl.style.height="fit-content";const text2=document.createElement("div");text2.classList.add("playerCreator-autoplay-fontsize-controller","btn-mobileViwerModeAutoplayFontSize");text2.textContent="Clique para ouvir";text2.style.color=autoplayContentColor.trim();text2.style.fontWeight="700";text2.style.fontSize="16px";contentContainer.appendChild(unmuteStampEl);contentContainer.appendChild(text2);generalContainer.appendChild(contentContainer);return generalContainer};const unmuteModel4Creator=(autoplayBackgroundColor,autoplayPulsar)=>{const generalContainer=document.createElement("div");generalContainer.style.display="flex";generalContainer.style.alignItems="center";generalContainer.style.justifyContent="center";generalContainer.style.width="100%";generalContainer.style.height="100%";generalContainer.style.justifyContent="center";generalContainer.style.position="absolute";generalContainer.style.zIndex="105";generalContainer.style.pointerEvents="none";generalContainer.id="unmuteEl-flag";const contentContainer=document.createElement("div");contentContainer.style.padding="0.5rem";if(autoplayHasBorder&&!autoplayElCoversFullPlayer)contentContainer.style.border=`${autoplayBorderColor.trim()} solid 1px`;contentContainer.style.display="flex";contentContainer.style.flexDirection="column";contentContainer.style.alignItems="center";contentContainer.style.justifyContent="center";contentContainer.style.borderRadius="5px";contentContainer.style.backgroundColor=autoplayBackgroundColor.trim();contentContainer.style.pointerEvents="none";contentContainer.style.width=autoplayElCoversFullPlayer?"100%":"80%";contentContainer.style.maxWidth=autoplayElCoversFullPlayer?"100%":"180px";contentContainer.style.maxHeight=autoplayElCoversFullPlayer?"100%":"90%";if(autoplayElCoversFullPlayer)contentContainer.style.height="100%";if(autoplayPulsar&&!autoplayElCoversFullPlayer)contentContainer.classList.add("player-unmute-el-pulsar");const unmuteStampEl=createPlayButtonSVG(autoplayContentColor);unmuteStampEl.style.width="90px";unmuteStampEl.classList.add("autoplay-model1-soundel");unmuteStampEl.style.margin="0px";unmuteStampEl.style.height="fit-content";const text1=document.createElement("div");text1.classList.add("playerCreator-autoplay-fontsize-controller","btn-mobileViwerModeAutoplayFontSize");text1.style.color=autoplayContentColor.trim();text1.style.fontWeight="700";text1.style.fontSize="16px";text1.textContent="Clique para ouvir";contentContainer.appendChild(unmuteStampEl);contentContainer.appendChild(text1);generalContainer.appendChild(contentContainer);return generalContainer};const unmuteModelImgCreator=(autoplayPulsar,autoplayImgUrl)=>{const generalContainer=document.createElement("div");generalContainer.style.display="flex";generalContainer.style.alignItems="center";generalContainer.style.justifyContent="center";generalContainer.style.width="100%";generalContainer.style.height="100%";generalContainer.style.justifyContent="center";generalContainer.style.position="absolute";generalContainer.style.zIndex="105";generalContainer.style.pointerEvents="none";generalContainer.id="unmuteEl-flag";const contentContainer=document.createElement("div");contentContainer.style.pointerEvents="none";contentContainer.style.width=autoplayElCoversFullPlayer?"100%":"50%";if(autoplayElCoversFullPlayer)contentContainer.style.maxWidth="100%";if(autoplayElCoversFullPlayer)contentContainer.style.height="100%";if(autoplayPulsar&&!autoplayElCoversFullPlayer)contentContainer.classList.add("player-unmute-el-pulsar");const imgEl=document.createElement("img");imgEl.src=autoplayImgUrl;imgEl.style.width="100%";if(autoplayElCoversFullPlayer)imgEl.style.height="100%";contentContainer.appendChild(imgEl);generalContainer.appendChild(contentContainer);return generalContainer};const playBtnCreator=playBtnColor=>{const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");svg.setAttribute("xmlns","http://www.w3.org/2000/svg");svg.setAttribute("viewBox","0 0 100 100");svg.setAttribute("width","100");svg.setAttribute("height","100");const circle=document.createElementNS("http://www.w3.org/2000/svg","circle");circle.setAttribute("cx","50");circle.setAttribute("cy","50");circle.setAttribute("r","45");circle.setAttribute("fill",playBtnColor.trim());const polygon=document.createElementNS("http://www.w3.org/2000/svg","polygon");polygon.setAttribute("points","40,30 70,50 40,70");polygon.setAttribute("fill","#ffffff");svg.appendChild(circle);svg.appendChild(polygon);return svg};const coverElCreator=playBtnColor=>{const coverEl=document.createElement("div");coverEl.style.cursor="pointer";coverEl.style.display="flex";coverEl.style.alignItems="center";coverEl.style.justifyContent="center";coverEl.style.backgroundColor="#00000000";coverEl.style.width="100%";coverEl.style.height="100%";coverEl.style.position="absolute";coverEl.style.zIndex="100";const playBtn=playBtnCreator(playBtnColor);playBtn.style.display="none";playBtn.style.width="85px";coverEl.appendChild(playBtn);return coverEl};const loadingElCreator=()=>{const containerEl=document.createElement("div");containerEl.style.backgroundColor="black";containerEl.style.width="100%";containerEl.style.height="100%";containerEl.style.position="absolute";containerEl.style.zIndex="100";const loadingEl=document.createElement("div");loadingEl.classList.add("playerCreator-loadingel");containerEl.appendChild(loadingEl);return containerEl};const progressBarCreator=(progressBarColor,progressBarHeight)=>{const progressBar=document.createElement("div");progressBar.style.backgroundColor=progressBarColor.trim();progressBar.style.position="absolute";progressBar.style.height=`${progressBarHeight.trim()}%`;progressBar.style.width="0";progressBar.style.bottom="0";progressBar.style.zIndex="1";return progressBar};const imgCoverCreator=videoId=>{const container=document.createElement("div");container.classList.add("playerCreator-imgCoverCreator-container");container.style.top="50%";container.style.left="50%";container.style.transform="translate(-50%, -50%)";if(playerFormato==="vertical"){container.style.top="50%";container.style.left="50%";container.style.transform="translate(-50%, -50%) scale(2.38)"}const imgEl=document.createElement("img");imgEl.src=`https://img.youtube.com/vi/${videoId}/sddefault.jpg`;container.appendChild(imgEl);return container};let isHovered=false;const darkenColor=(color,amount)=>{const rgbColor=color.replace("#","").match(/.{2}/g).map(hex=>parseInt(hex,16));const darkenedColor=rgbColor.map(value=>Math.max(0,value-amount));const hexColor=darkenedColor.map(value=>value.toString(16).padStart(2,"0")).join("");return`#${hexColor}`};const handleHover=(color,el)=>{isHovered=true;el.style.backgroundColor=darkenColor(color,20);el.style.backgroundColor=el.style.filter="brightness(90%)"};const handleMouseLeave=(color,el)=>{isHovered=false;el.style.backgroundColor=color;el.style.filter="none"};const fbPixelInstaller=fbPixelCode=>{const scriptElement=document.createElement("script");scriptElement.type="text/javascript";const pixelCode=fbPixelCode.trim();let scriptCode=`
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+          n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+          if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+          n.queue=[];t=b.createElement(e);t.async=!0;
+          t.src=v;s=b.getElementsByTagName(e)[0];
+          s.parentNode.insertBefore(t,s)}(window, document,'script',
+          'https://connect.facebook.net/pt_BR/fbevents.js');
+          fbq('replace', '${pixelCode}');
+          fbq('track', 'PageView');   
+          `;scriptCode=scriptCode.replace("'replace'","'init'");scriptElement.textContent=scriptCode;document.head.appendChild(scriptElement)};if(installFbPixel&&!editorMode)fbPixelInstaller(fbPixelCode);const checkIfFbPixelIsInstalled=()=>{let isInstalled=false;try{fbq("trackCustom","FbPixelInstalado");isInstalled=true}catch(error){console.log("Erro: FB Pixel não instalado!");isInstalled=false}return isInstalled};let fbPixelIsInstalled=false;addYoutubeScript();const playerContainerEl=document.createElement("div");playerContainerEl.classList.add("playerCreator-container");if(playerFormato==="vertical")playerContainerEl.style.paddingBottom="177%";playerContainerEl.style.borderRadius=`${playerBorderRadius.trim()}0px`;if(playerHasBoxShadow)playerContainerEl.style.boxShadow=`0 2px 10px 0 ${playerBoxShadowColor}`;let contadorDeVisEl;if(contadorDeVisExists){contadorDeVisEl=document.createElement("div");contadorDeVisEl.classList.add("contadorDeVisualizacao-flag");let currentVisNum=contadorDeVisNumMin;const updateContadorDeVis=()=>{const nextNum=Math.min(currentVisNum+Math.floor(Math.random()*(contadorDeVisNumMax-currentVisNum+1)),contadorDeVisNumMax);contadorDeVisEl.textContent=`${nextNum} ${contadorDeVisText}`;currentVisNum=nextNum};function updateViewerCount(){const min=contadorDeVisNumMin;const max=contadorDeVisNumMax;const newCount=Math.floor(Math.random()*(max-min+1))+min;contadorDeVisEl.textContent=`${newCount} ${contadorDeVisText}`}contadorDeVisEl.textContent=`${contadorDeVisNumMin} ${contadorDeVisText}`;if(contadorDeVisJustGrowNum)setInterval(updateContadorDeVis,contadorDeVisVariacaoTime*1e3);if(!contadorDeVisJustGrowNum)setInterval(updateViewerCount,contadorDeVisVariacaoTime*1e3);contadorDeVisEl.style.zIndex="10";contadorDeVisEl.style.padding="0.5rem";contadorDeVisEl.style.backgroundColor=contadorDeVisBakgroundColor;contadorDeVisEl.style.color=contadorDeVisTextColor;if(contadorDeVisFontIsBold)contadorDeVisEl.style.fontWeight="bold";if(playerHasBoxShadow)contadorDeVisEl.style.boxShadow=`0 2px 10px 0 ${playerBoxShadowColor}`;if(contadorDeVisPosition==="acima"){contadorDeVisEl.style.marginBottom="-1rem";contadorDeVisEl.style.borderRadius=`${playerBorderRadius.trim()}0px ${playerBorderRadius.trim()}0px 0 0`;playerContainerEl.style.borderRadius=`0 0 ${playerBorderRadius.trim()}0px ${playerBorderRadius.trim()}0px `}if(contadorDeVisPosition==="abaixo"){contadorDeVisEl.style.marginTop="-1rem";contadorDeVisEl.style.borderRadius=`0 0 ${playerBorderRadius.trim()}0px ${playerBorderRadius.trim()}0px`;playerContainerEl.style.borderRadius=`${playerBorderRadius.trim()}0px ${playerBorderRadius.trim()}0px 0 0`}}const loadingEl=loadingElCreator();const progressBarEl=progressBarCreator(progressBarColor,progressBarHeight);let imgCoverEl;if(hasImgCover)imgCoverEl=imgCoverCreator(videoId);const tempCoverForWhenDoNotHaveAutoplayAndCoverImg=coverElCreator(playBtnColor.trim());tempCoverForWhenDoNotHaveAutoplayAndCoverImg.style.pointerEvents="none";tempCoverForWhenDoNotHaveAutoplayAndCoverImg.style.backgroundColor="rgb(0 0 0 / 100%";tempCoverForWhenDoNotHaveAutoplayAndCoverImg.childNodes[0].style.display="block";const transparentElToDoNotUserPauseVideo=document.createElement("div");transparentElToDoNotUserPauseVideo.style.width="100%";transparentElToDoNotUserPauseVideo.style.height="100%";transparentElToDoNotUserPauseVideo.style.position="absolute";transparentElToDoNotUserPauseVideo.style.zIndex="110";const coverPlayPauseEl=coverElCreator(playBtnColor.trim());let pausedPlayerImgContainer;if(useImgWhenPlayerIsPaused){pausedPlayerImgContainer=document.createElement("div");pausedPlayerImgContainer.style.display="none";pausedPlayerImgContainer.style.position="absolute";pausedPlayerImgContainer.style.width="100%";pausedPlayerImgContainer.style.top="50%";pausedPlayerImgContainer.style.left="50%";pausedPlayerImgContainer.style.transform="translate(-50%, -50%)";pausedPlayerImgContainer.style.aspectRatio="16 / 9";if(playerFormato==="vertical")pausedPlayerImgContainer.style.aspectRatio="9 / 16";pausedPlayerImgContainer.style.overflow="hidden";pausedPlayerImgContainer.style.alignItems="center";pausedPlayerImgContainer.style.pointerEvents="none";const pausedPlayerImgEl=document.createElement("img");pausedPlayerImgEl.src=imgForPausedPlayerUrl;pausedPlayerImgEl.style.width="100%";pausedPlayerImgEl.style.height="100%";pausedPlayerImgContainer.appendChild(pausedPlayerImgEl);coverPlayPauseEl.appendChild(pausedPlayerImgContainer)}const showPlayPauseCover=({backgroundColor,playerWasPaused,event})=>{coverPlayPauseEl.style.backgroundColor=backgroundColor;coverPlayPauseEl.childNodes[0].style.display="block";if(playerWasPaused&&useImgWhenPlayerIsPaused)pausedPlayerImgContainer.style.display="flex"};const hidePlayPauseCover=({event})=>{coverPlayPauseEl.style.backgroundColor="#00000000";coverPlayPauseEl.childNodes[0].style.display="none";if(useImgWhenPlayerIsPaused)pausedPlayerImgContainer.style.display="none"};const playerEl=document.createElement("iframe");playerEl.setAttribute("id",`playerCreator-playerEl-id`);playerEl.setAttribute("class","playerCreator-playerEl");playerEl.setAttribute("src",`https://www.youtube.com/embed/${videoId}?enablejsapi=1&html5=1&controls=0&fs=0&rel=0`);playerEl.setAttribute("frameborder","0");playerEl.setAttribute("allowfullscreen","");let player;let autoplayPlayerMask;let autoplayPlayerMaskLoadingEl;let autoplayUnmuteEl;let playerElForAlreadyStartedVideo;let restartOrContinueVideoScreenEl;let headlineEl;if(hasHeadline){headlineEl=document.createElement("div");headlineEl.classList.add("playerCreator-headline");headlineEl.innerHTML=editorMode?DOMPurify.sanitize(headlineTextNew):headlineTextNew;container.appendChild(headlineEl)}let subHeadlineEl;if(hasSubheadline){subHeadlineEl=document.createElement("div");subHeadlineEl.classList.add("playerCreator-subHeadlineEl");subHeadlineEl.innerHTML=editorMode?DOMPurify.sanitize(subheadlineTextNew):subheadlineTextNew;container.appendChild(subHeadlineEl)}playerContainerEl.appendChild(playerEl);if(hasProgressBar)playerContainerEl.appendChild(progressBarEl);playerContainerEl.appendChild(loadingEl);if(hasAutoplay&&!videoWasAlreadySeem){autoplayPlayerMask=document.createElement("iframe");autoplayPlayerMask.setAttribute("id",`vplayer-mask`);autoplayPlayerMask.setAttribute("class","playerCreator-playerEl");autoplayPlayerMask.setAttribute("src",`https://www.youtube.com/embed/${autoplayVideoId}?enablejsapi=1&html5=1&controls=0&fs=0&rel=0&autoplay=1&mute=1`);autoplayPlayerMask.setAttribute("frameborder","0");autoplayPlayerMask.setAttribute("allowfullscreen","");autoplayPlayerMask.style.pointerEvents="none";autoplayPlayerMaskLoadingEl=loadingElCreator();if(autoplayType==="template"&&autoplayTemplate==="1")autoplayUnmuteEl=unmuteModel1Creator(autoplayBackgroundColor,autoplayPulsar);if(autoplayType==="template"&&autoplayTemplate==="2")autoplayUnmuteEl=unmuteModel2Creator(autoplayBackgroundColor,autoplayPulsar);if(autoplayType==="template"&&autoplayTemplate==="3")autoplayUnmuteEl=unmuteModel3Creator(autoplayBackgroundColor,autoplayPulsar);if(autoplayType==="template"&&autoplayTemplate==="4")autoplayUnmuteEl=unmuteModel4Creator(autoplayBackgroundColor,autoplayPulsar);if(autoplayType==="imagem")autoplayUnmuteEl=unmuteModelImgCreator(autoplayPulsar,autoplayImgUrl);playerContainerEl.appendChild(autoplayPlayerMask);playerContainerEl.appendChild(autoplayPlayerMaskLoadingEl)}if(videoWasAlreadySeem){playerElForAlreadyStartedVideo=document.createElement("iframe");playerElForAlreadyStartedVideo.setAttribute("id",`playerCreator-playerElForAreadyStartedVideo-id`);playerElForAlreadyStartedVideo.setAttribute("class","playerCreator-playerEl");playerElForAlreadyStartedVideo.setAttribute("src",`https://www.youtube.com/embed/${videoId}?enablejsapi=1&html5=1&controls=0&fs=0&rel=0`);playerElForAlreadyStartedVideo.setAttribute("frameborder","0");playerElForAlreadyStartedVideo.setAttribute("allowfullscreen","");playerElForAlreadyStartedVideo.style.width="50%";playerElForAlreadyStartedVideo.style.left="auto";restartOrContinueVideoScreenEl=restartOrContinueVideoScreenCreator();playerContainerEl.appendChild(playerElForAlreadyStartedVideo);playerContainerEl.appendChild(restartOrContinueVideoScreenEl)}if(contadorDeVisExists&&contadorDeVisPosition==="acima")container.appendChild(contadorDeVisEl);container.appendChild(playerContainerEl);if(contadorDeVisExists&&contadorDeVisPosition==="abaixo")container.appendChild(contadorDeVisEl);let btnCtaEl;if(hasCtaBtn){btnCtaEl=document.createElement("div");btnCtaEl.classList.add("btnCta-flag");if(ctaBtnPulsar)btnCtaEl.classList.add("player-unmute-el-pulsar");btnCtaEl.style.backgroundColor=ctaBtnBackgroundColor.trim();btnCtaEl.style.color=ctaBtnTextColor.trim();btnCtaEl.style.padding="12px 30px";btnCtaEl.style.cursor="pointer";btnCtaEl.style.width=ctaBtnWidthIsFull?"100%":"fit-content";btnCtaEl.style.alignSelf="center";if(ctaBtnFontIsBold)btnCtaEl.style.fontWeight="bold";btnCtaEl.textContent=ctaBtnText.trim();btnCtaEl.style.borderRadius=`${ctaBtnBorderRadius.trim()}0px`;if(ctaBtnHasBoxShadow)btnCtaEl.style.boxShadow="0 2px 10px 0 rgba(0,0,0,.75)";if(ctaBtnHasDelay)btnCtaEl.classList.add("esconder","ctaBtn");btnCtaEl.style.border=`solid 0.1px ${ctaBtnBorderColor.trim()}`;if(!editorMode)btnCtaEl.addEventListener("click",()=>window.location.href=ctaBtnUrlRedirectUser.trim());btnCtaEl.addEventListener("mouseenter",()=>handleHover(ctaBtnBackgroundColor.trim(),btnCtaEl));btnCtaEl.addEventListener("mouseleave",()=>handleMouseLeave(ctaBtnBackgroundColor.trim(),btnCtaEl));container.appendChild(btnCtaEl)}let btnSupportEl;if(hasSupportBtn){btnSupportEl=document.createElement("div");btnSupportEl.classList.add("btnContato-flag");btnSupportEl.style.display="flex";btnSupportEl.style.alignItems="center";btnSupportEl.style.gap="0.5rem";if(supportBtnPulsar)btnSupportEl.classList.add("player-unmute-el-pulsar");btnSupportEl.style.backgroundColor=supportBtnBackgroundColor.trim();btnSupportEl.style.color=supportBtnTextColor.trim();btnSupportEl.style.padding="12px 30px";btnSupportEl.style.cursor="pointer";btnSupportEl.style.width=supportBtnWidthIsFull?"100%":"fit-content";if(supportBtnWidthIsFull)btnSupportEl.style.justifyContent="center";btnSupportEl.style.alignSelf="center";btnSupportEl.style.borderRadius=`${supportBtnBorderRadius.trim()}0px`;if(supportBtnHasBoxShadow)btnSupportEl.style.boxShadow="0 2px 10px 0 rgba(0,0,0,.75)";if(supportBtnHasDelay)btnSupportEl.classList.add("esconder","supportBtn");btnSupportEl.style.border=`solid 0.1px ${supportBtnBorderColor.trim()}`;const suportBtnText=document.createElement("div");if(supportBtnFontIsBold)suportBtnText.style.fontWeight="bold";suportBtnText.textContent=supportBtnText.trim();if(!editorMode)btnSupportEl.addEventListener("click",()=>window.open(supportBtnUrl.trim(),"_blank"));btnSupportEl.addEventListener("mouseenter",()=>handleHover(supportBtnBackgroundColor.trim(),btnSupportEl));btnSupportEl.addEventListener("mouseleave",()=>handleMouseLeave(supportBtnBackgroundColor.trim(),btnSupportEl));btnSupportEl.appendChild(suportBtnText);container.appendChild(btnSupportEl)}const iconSpeed1Creator=()=>{const svgElement=document.createElementNS("http://www.w3.org/2000/svg","svg");svgElement.setAttribute("xmlns","http://www.w3.org/2000/svg");svgElement.setAttribute("height","24px");svgElement.setAttribute("viewBox","0 -960 960 960");svgElement.setAttribute("width","24px");svgElement.setAttribute("fill","#e8eaed");const pathElement=document.createElementNS("http://www.w3.org/2000/svg","path");pathElement.setAttribute("d","M240-280v-320h-80v-80h160v400h-80Zm174 0 126-212-114-188h94l66 110 68-110h92L634-492l126 212h-94l-80-134-80 134h-92Z");svgElement.appendChild(pathElement);return svgElement};const iconSpeed125Creator=()=>{const svgElement3=document.createElementNS("http://www.w3.org/2000/svg","svg");svgElement3.setAttribute("xmlns","http://www.w3.org/2000/svg");svgElement3.setAttribute("height","24px");svgElement3.setAttribute("viewBox","0 -960 960 960");svgElement3.setAttribute("width","24px");svgElement3.setAttribute("fill","#e8eaed");const pathElement3=document.createElementNS("http://www.w3.org/2000/svg","path");pathElement3.setAttribute("d","M240-280v-80h80v80h-80Zm120 0v-160q0-33 23.5-56.5T440-520h60v-80H360v-80h140q33 0 56.5 23.5T580-600v80q0 33-23.5 56.5T500-440h-60v80h140v80H360Zm-240 0v-320H40v-80h160v400h-80Zm500 0 120-200-120-200h80l80 133 80-133h80L820-480l120 200h-80l-80-133-80 133h-80Z");svgElement3.appendChild(pathElement3);return svgElement3};const iconSpeed150Creator=()=>{const svgElement4=document.createElementNS("http://www.w3.org/2000/svg","svg");svgElement4.setAttribute("xmlns","http://www.w3.org/2000/svg");svgElement4.setAttribute("height","24px");svgElement4.setAttribute("viewBox","0 -960 960 960");svgElement4.setAttribute("width","24px");svgElement4.setAttribute("fill","#e8eaed");const pathElement4=document.createElementNS("http://www.w3.org/2000/svg","path");pathElement4.setAttribute("d","M240-280v-80h80v80h-80Zm-120 0v-320H40v-80h160v400h-80Zm500 0 120-200-120-200h80l80 133 80-133h80L820-480l120 200h-80l-80-133-80 133h-80Zm-260 0v-80h140v-80H360v-240h220v80H440v80h60q33 0 56.5 23.5T580-440v80q0 33-23.5 56.5T500-280H360Z");svgElement4.appendChild(pathElement4);return svgElement4};const iconSpeed175Creator=()=>{const svgElement5=document.createElementNS("http://www.w3.org/2000/svg","svg");svgElement5.setAttribute("xmlns","http://www.w3.org/2000/svg");svgElement5.setAttribute("height","24px");svgElement5.setAttribute("viewBox","0 -960 960 960");svgElement5.setAttribute("width","24px");svgElement5.setAttribute("fill","#e8eaed");const pathElement5=document.createElementNS("http://www.w3.org/2000/svg","path");pathElement5.setAttribute("d","M240-280v-80h80v80h-80Zm-120 0v-320H40v-80h160v400h-80Zm480 0 120-200-120-200h80l80 133 80-133h80L800-480l120 200h-80l-80-133-80 133h-80Zm-200 0 80-320H320v-80h170q29 0 49.5 21.5T560-608l-2 18-78 310h-80Z");svgElement5.appendChild(pathElement5);return svgElement5};const iconSpeed200Creator=()=>{const svgElement6=document.createElementNS("http://www.w3.org/2000/svg","svg");svgElement6.setAttribute("xmlns","http://www.w3.org/2000/svg");svgElement6.setAttribute("height","24px");svgElement6.setAttribute("viewBox","0 -960 960 960");svgElement6.setAttribute("width","24px");svgElement6.setAttribute("fill","#e8eaed");const pathElement6=document.createElementNS("http://www.w3.org/2000/svg","path");pathElement6.setAttribute("d","M200-280v-160q0-33 23.5-56.5T280-520h80v-80H200v-80h160q33 0 56.5 23.5T440-600v80q0 33-23.5 56.5T360-440h-80v80h160v80H200Zm280 0 120-200-120-200h80l80 133 80-133h80L680-480l120 200h-80l-80-133-80 133h-80Z");svgElement6.appendChild(pathElement6);return svgElement6};const actionsBarContainer=document.createElement("div");actionsBarContainer.classList.add("player-actions-container");actionsBarContainer.style.display="flex";actionsBarContainer.style.padding="0.5rem";actionsBarContainer.style.alignItems="center";actionsBarContainer.style.position="absolute";actionsBarContainer.style.bottom="0";actionsBarContainer.style.zIndex="115";actionsBarContainer.style.gap="0.5rem";actionsBarContainer.style.right="0";actionsBarContainer.style.pointerEvents="none";let speedValueBox;let speed1IconEl;let speed125IconEl;let speed150IconEl;let speed175IconEl;let speed200IconEl;if(allowUserToChangePlaybackSpeedDuringExibition){const speedHandler=speedIconToBeShown=>{Array.from(speedValueBox.children).forEach(icon=>{icon.style.display="none"});speedIconToBeShown.style.display="block"};speedValueBox=document.createElement("div");speedValueBox.style.backgroundColor="rgba(0, 0, 0, 0.4)";speedValueBox.style.padding="0.25rem";speedValueBox.style.borderRadius="4px";speedValueBox.style.pointerEvents="auto";speed1IconEl=iconSpeed1Creator();speed1IconEl.style.cursor="pointer";speed1IconEl.style.zIndex="110";if(videosIniPlaybackRate!==1)speed1IconEl.style.display="none";speedValueBox.appendChild(speed1IconEl);speed125IconEl=iconSpeed125Creator();speed125IconEl.style.cursor="pointer";speed125IconEl.style.zIndex="110";if(videosIniPlaybackRate!==1.25)speed125IconEl.style.display="none";speedValueBox.appendChild(speed125IconEl);speed150IconEl=iconSpeed150Creator();speed150IconEl.style.cursor="pointer";speed150IconEl.style.zIndex="110";if(videosIniPlaybackRate!==1.5)speed150IconEl.style.display="none";speedValueBox.appendChild(speed150IconEl);speed175IconEl=iconSpeed175Creator();speed175IconEl.style.cursor="pointer";speed175IconEl.style.zIndex="110";if(videosIniPlaybackRate!==1.75)speed175IconEl.style.display="none";speedValueBox.appendChild(speed175IconEl);speed200IconEl=iconSpeed200Creator();speed200IconEl.style.cursor="pointer";speed200IconEl.style.zIndex="110";if(videosIniPlaybackRate!==2)speed200IconEl.style.display="none";speedValueBox.appendChild(speed200IconEl);speed1IconEl.addEventListener("click",()=>speedHandler(speed125IconEl));speed125IconEl.addEventListener("click",()=>speedHandler(speed150IconEl));speed150IconEl.addEventListener("click",()=>speedHandler(speed175IconEl));speed175IconEl.addEventListener("click",()=>speedHandler(speed200IconEl));speed200IconEl.addEventListener("click",()=>speedHandler(speed1IconEl));actionsBarContainer.appendChild(speedValueBox)}if(fullScreenEnabled){const fullScreenEnterIconCreator=()=>{const svgElement=document.createElementNS("http://www.w3.org/2000/svg","svg");svgElement.setAttribute("xmlns","http://www.w3.org/2000/svg");svgElement.setAttribute("height","24px");svgElement.setAttribute("viewBox","0 -960 960 960");svgElement.setAttribute("width","24px");svgElement.setAttribute("fill","#e8eaed");const pathElement=document.createElementNS("http://www.w3.org/2000/svg","path");pathElement.setAttribute("d","M120-120v-200h80v120h120v80H120Zm520 0v-80h120v-120h80v200H640ZM120-640v-200h200v80H200v120h-80Zm640 0v-120H640v-80h200v200h-80Z");svgElement.appendChild(pathElement);return svgElement};const fullScreenExitIconCreator=()=>{const svgElement=document.createElementNS("http://www.w3.org/2000/svg","svg");svgElement.setAttribute("xmlns","http://www.w3.org/2000/svg");svgElement.setAttribute("height","24px");svgElement.setAttribute("viewBox","0 -960 960 960");svgElement.setAttribute("width","24px");svgElement.setAttribute("fill","#e8eaed");const pathElement=document.createElementNS("http://www.w3.org/2000/svg","path");pathElement.setAttribute("d","M240-120v-120H120v-80h200v200h-80Zm400 0v-200h200v80H720v120h-80ZM120-640v-80h120v-120h80v200H120Zm520 0v-200h80v120h120v80H640Z");svgElement.appendChild(pathElement);return svgElement};const fullScreenHandler=({elToBeShown,ElToBeHidden})=>{elToBeShown.style.display="block";ElToBeHidden.style.display="none";container.style.alignItems="center";playerContainerEl.style.borderRadius=`0px`;playerContainerEl.style.paddingBottom="0%";if(playerFormato==="horizontal"){playerContainerEl.style.width="min(100vw, 177.78vh)";playerContainerEl.style.height="min(100vh, 56.25vw)"}if(playerFormato==="vertical"){playerContainerEl.style.width="min(100vw, 56.25vh)";playerContainerEl.style.height="min(100vh, 177.78vw)"}if(contadorDeVisExists)contadorDeVisEl.style.display="none";if(hasHeadline)headlineEl.style.display="none";if(hasSubheadline)subHeadlineEl.style.display="none";if(hasCtaBtn){btnCtaEl.style.display="none"}if(hasSupportBtn){btnSupportEl.style.display="none"}if(container.requestFullscreen){container.requestFullscreen()}else if(container.mozRequestFullScreen){container.mozRequestFullScreen()}else if(container.webkitRequestFullscreen){container.webkitRequestFullscreen()}else if(container.msRequestFullscreen){container.msRequestFullscreen()}};const regularScreenHandler=({elToBeShown,ElToBeHidden})=>{elToBeShown.style.display="block";ElToBeHidden.style.display="none";container.style.alignItems="normal";playerContainerEl.style.borderRadius=`${playerBorderRadius.trim()}0px`;if(playerFormato==="horizontal"){playerContainerEl.style.removeProperty("width");actionsBarContainer.style.removeProperty("justify-content");playerContainerEl.style.removeProperty("height");playerContainerEl.style.paddingBottom="56.25%"}if(playerFormato==="vertical"){playerContainerEl.style.removeProperty("width");playerContainerEl.style.removeProperty("height");playerContainerEl.style.paddingBottom="177%"}if(contadorDeVisExists){contadorDeVisEl.style.display="block";if(contadorDeVisPosition==="abaixo"){playerContainerEl.style.borderRadius=`${playerBorderRadius.trim()}0px ${playerBorderRadius.trim()}0px 0 0`}if(contadorDeVisPosition==="acima"){playerContainerEl.style.borderRadius=`0 0 ${playerBorderRadius.trim()}0px ${playerBorderRadius.trim()}0px `}}if(hasHeadline)headlineEl.style.display="block";if(hasSubheadline)subHeadlineEl.style.display="block";if(hasCtaBtn){btnCtaEl.style.display="block"}if(hasSupportBtn){btnSupportEl.style.display="block"}if(document.fullscreenElement||document.webkitFullscreenElement||document.mozFullScreenElement||document.msFullscreenElement){if(document.exitFullscreen){document.exitFullscreen()}else if(document.mozCancelFullScreen){document.mozCancelFullScreen()}else if(document.webkitExitFullscreen){document.webkitExitFullscreen()}else if(document.msExitFullscreen){document.msExitFullscreen()}}else{console.warn("Não está em tela cheia. Ignorando chamada para exitFullscreen().")}};const screenSizeBox=document.createElement("div");screenSizeBox.style.backgroundColor="rgba(0, 0, 0, 0.4)";screenSizeBox.style.padding="0.25rem";screenSizeBox.style.borderRadius="4px";screenSizeBox.style.pointerEvents="auto";const fullScreenEnterIconEl=fullScreenEnterIconCreator();fullScreenEnterIconEl.style.cursor="pointer";fullScreenEnterIconEl.addEventListener("click",()=>fullScreenHandler({elToBeShown:fullScreenExitIconEl,ElToBeHidden:fullScreenEnterIconEl}));const fullScreenExitIconEl=fullScreenExitIconCreator();fullScreenExitIconEl.style.cursor="pointer";fullScreenExitIconEl.style.display="none";fullScreenExitIconEl.addEventListener("click",()=>regularScreenHandler({elToBeShown:fullScreenEnterIconEl,ElToBeHidden:fullScreenExitIconEl}));screenSizeBox.appendChild(fullScreenEnterIconEl);screenSizeBox.appendChild(fullScreenExitIconEl);actionsBarContainer.appendChild(screenSizeBox);document.addEventListener("fullscreenchange",()=>{if(!document.fullscreenElement){regularScreenHandler({elToBeShown:fullScreenEnterIconEl,ElToBeHidden:fullScreenExitIconEl})}});document.addEventListener("webkitfullscreenchange",()=>{if(!document.webkitFullscreenElement){regularScreenHandler({elToBeShown:fullScreenEnterIconEl,ElToBeHidden:fullScreenExitIconEl})}});document.addEventListener("mozfullscreenchange",()=>{if(!document.mozFullScreenElement){regularScreenHandler({elToBeShown:fullScreenEnterIconEl,ElToBeHidden:fullScreenExitIconEl})}});document.addEventListener("MSFullscreenChange",()=>{if(!document.msFullscreenElement){regularScreenHandler({elToBeShown:fullScreenEnterIconEl,ElToBeHidden:fullScreenExitIconEl})}})}let hideTimeoutActionsBar;if(allowUserToChangePlaybackSpeedDuringExibition||fullScreenEnabled){playerContainerEl.addEventListener("pointerover",event=>{const pointerType=event.pointerType;const actionBarEl=document.querySelector(".player-actions-container");let actionBarWasAppended;actionBarEl===null?actionBarWasAppended=false:actionBarWasAppended=true;if(actionBarWasAppended){if(pointerType==="mouse")actionBarEl.style.display="flex";if(pointerType==="touch"||pointerType==="pen"){actionBarEl.style.display="flex";if(hideTimeoutActionsBar){clearTimeout(hideTimeoutActionsBar)}hideTimeoutActionsBar=setTimeout(()=>{actionBarEl.style.display="none"},3e3)}}});playerContainerEl.addEventListener("pointerleave",event=>{const pointerType=event.pointerType;const actionBarEl=document.querySelector(".player-actions-container");let actionBarWasAppended;actionBarEl===null?actionBarWasAppended=false:actionBarWasAppended=true;if(actionBarWasAppended){if(pointerType==="mouse")actionBarEl.style.display="none"}})}let gatilhoDeContatoOverlayContainerEl;let gatilhoDeContatoContentContainer;let gatilhoDeContatoTemplateTextDiv;let gatilhoDeContatoTemplateBtnDiv;if(gatilhoDeContatoAtivado){gatilhoDeContatoOverlayContainerEl=document.createElement("div");gatilhoDeContatoOverlayContainerEl.style.userSelect="none";gatilhoDeContatoOverlayContainerEl.classList.add("gatilho-contato-back-el");gatilhoDeContatoOverlayContainerEl.style.position=editorMode?"absolute":"fixed";gatilhoDeContatoOverlayContainerEl.style.boxSizing="border-box";gatilhoDeContatoOverlayContainerEl.style.left="0";gatilhoDeContatoOverlayContainerEl.style.top="0";gatilhoDeContatoOverlayContainerEl.style.width="100%";gatilhoDeContatoOverlayContainerEl.style.height="100%";gatilhoDeContatoOverlayContainerEl.style.justifyContent="start";gatilhoDeContatoOverlayContainerEl.style.zIndex="1000";gatilhoDeContatoOverlayContainerEl.style.backgroundColor="rgba(0, 0, 0, 0.8)";gatilhoDeContatoOverlayContainerEl.style.display="flex";gatilhoDeContatoOverlayContainerEl.style.alignItems="center";gatilhoDeContatoOverlayContainerEl.style.padding="1rem";gatilhoDeContatoOverlayContainerEl.style.display="flex";gatilhoDeContatoOverlayContainerEl.style.flexDirection="column";gatilhoDeContatoOverlayContainerEl.style.gap="1rem";gatilhoDeContatoContentContainer=document.createElement("div");gatilhoDeContatoContentContainer.classList.add("gatilho-content-container");gatilhoDeContatoContentContainer.style.wordBreak="break-word";gatilhoDeContatoContentContainer.style.width="100%";gatilhoDeContatoContentContainer.style.boxSizing="border-box";gatilhoDeContatoContentContainer.style.maxWidth="900px";gatilhoDeContatoContentContainer.style.aspectRatio="16 / 9";gatilhoDeContatoContentContainer.style.overflow="auto";gatilhoDeContatoContentContainer.style.cursor="pointer";gatilhoDeContatoContentContainer.style.borderRadius=`${gatilhoDeContatoContainerBorderRadius.trim()}0px`;if(gatilhoDeContatoContainerHasBoxShadow)gatilhoDeContatoContentContainer.style.boxShadow=`0 0.5rem 1rem ${gatilhoDeContatoContainerBoxShadowColor}`;gatilhoDeContatoContentContainer.addEventListener("click",()=>window.open(gatilhoDeContatoUrlToRedLeadOnClick,"_blank"));if(gatilhoDeContatoPusar)applyPulseEffect({element:gatilhoDeContatoContentContainer,scale:.9,duration:750,interval:1500});if(gatilhoDeContatoTipo==="imagem"){const gatilhoDeContatoImgContainer=document.createElement("div");gatilhoDeContatoImgContainer.classList.add("gatilho-content-imagem-container");gatilhoDeContatoImgContainer.style.borderRadius=`${gatilhoDeContatoContainerBorderRadius.trim()}0px`;gatilhoDeContatoImgContainer.style.width="100%";gatilhoDeContatoImgContainer.style.boxSizing="border-box";gatilhoDeContatoImgContainer.style.overflow="hidden";gatilhoDeContatoImgContainer.style.height="100%";const gatilhoDeContatoImgEl=document.createElement("img");gatilhoDeContatoImgEl.style.borderRadius=`${gatilhoDeContatoContainerBorderRadius.trim()}0px`;gatilhoDeContatoImgEl.src=gatilhoDeContatoImgUrl;gatilhoDeContatoImgEl.style.width="100%";gatilhoDeContatoImgEl.style.height="100%";gatilhoDeContatoImgContainer.appendChild(gatilhoDeContatoImgEl);gatilhoDeContatoContentContainer.appendChild(gatilhoDeContatoImgContainer)}if(gatilhoDeContatoTipo==="template"){const gatilhoDeContatoTemplateContainer=document.createElement("div");gatilhoDeContatoTemplateContainer.classList.add("gatilho-content-template-container");gatilhoDeContatoTemplateContainer.style.borderRadius=`${gatilhoDeContatoContainerBorderRadius.trim()}0px`;gatilhoDeContatoTemplateContainer.style.width="100%";gatilhoDeContatoTemplateContainer.style.height="100%";gatilhoDeContatoTemplateContainer.style.boxSizing="border-box";gatilhoDeContatoTemplateContainer.style.padding="1rem";gatilhoDeContatoTemplateContainer.style.backgroundColor=gatilhoDeContatoTemplateBackgroundColor;gatilhoDeContatoTemplateContainer.style.display="flex";gatilhoDeContatoTemplateContainer.style.flexDirection="column";gatilhoDeContatoTemplateContainer.style.gap="1rem";gatilhoDeContatoTemplateContainer.style.alignItems="center";gatilhoDeContatoTemplateContainer.style.overflow="auto";gatilhoDeContatoTemplateContainer.style.aspectRatio="16 / 9";gatilhoDeContatoTemplateTextDiv=document.createElement("div");gatilhoDeContatoTemplateTextDiv.classList.add("gatilho-de-contato-text-div");gatilhoDeContatoTemplateTextDiv.style.width="100%";gatilhoDeContatoTemplateTextDiv.style.textAlign="center";gatilhoDeContatoTemplateTextDiv.innerHTML=editorMode?DOMPurify.sanitize(gatilhoDeContatoTemplateText):gatilhoDeContatoTemplateText;gatilhoDeContatoTemplateContainer.appendChild(gatilhoDeContatoTemplateTextDiv);gatilhoDeContatoContentContainer.appendChild(gatilhoDeContatoTemplateContainer)}gatilhoDeContatoOverlayContainerEl.appendChild(gatilhoDeContatoContentContainer)}let screenSizeState=null;function checkScreenSize(){const currentState=window.innerWidth>=769?"desktop":"smartphone";if(currentState!==screenSizeState){screenSizeState=currentState;if(screenSizeState==="desktop"){if(playerFormato==="vertical"&&editorMode)container.style.maxWidth="320px";if(hasCtaBtn&&ctaBtnDesktopFontSizeNew.trim()!=="")btnCtaEl.style.fontSize=`${ctaBtnDesktopFontSizeNew.trim()}px`;if(hasSupportBtn&&supportBtnDesktopFontSizeNew.trim()!=="")btnSupportEl.style.fontSize=`${supportBtnDesktopFontSizeNew.trim()}px`;if(contadorDeVisExists&&contadorDeVisText.trim()!=="")contadorDeVisEl.style.fontSize=`${contadorDeVisDesktopFontSize.trim()}px`;taostsContainer.style.width="250px";if(videoWasAlreadySeem){restartOrContinueVideoScreenEl.style.fontSize="26px";const centeredTextDiv=restartOrContinueVideoScreenEl.querySelector(".contionueScreen-centeredTextDiv-flag");const containerRestartLeft=restartOrContinueVideoScreenEl.querySelector(".contionueScreen-containerRestartLeft-flag");const containerContinueRight=restartOrContinueVideoScreenEl.querySelector(".contionueScreen-containerContinueRight-flag");const btnsContainer=centeredTextDiv.parentNode.children[1];centeredTextDiv.style.maxWidth="none";btnsContainer.style.maxWidth="none";centeredTextDiv.style.marginBottom="1rem";centeredTextDiv.style.fontSize="32px";containerRestartLeft.style.flexDirection="row";containerRestartLeft.style.justifyContent="right";containerRestartLeft.style.padding="0 3rem";containerRestartLeft.children[1].style.marginLeft="0.5rem";containerContinueRight.style.flexDirection="row";containerContinueRight.style.justifyContent="left";containerContinueRight.style.padding="0 3rem";containerContinueRight.children[1].style.marginLeft="1rem";const svgEls=restartOrContinueVideoScreenEl.querySelectorAll("svg");svgEls.forEach(el=>el.style.height="110px")}}else{if(playerFormato==="vertical"&&editorMode)container.style.maxWidth="100%";if(hasCtaBtn&&ctaBtnMobileFontSizeNew.trim()!=="")btnCtaEl.style.fontSize=`${ctaBtnMobileFontSizeNew.trim()}px`;if(hasSupportBtn&&supportBtnMobileFontSizeNew.trim()!=="")btnSupportEl.style.fontSize=`${supportBtnMobileFontSizeNew.trim()}px`;if(contadorDeVisExists&&contadorDeVisText.trim()!=="")contadorDeVisEl.style.fontSize=`${contadorDeVisMobileFontSize.trim()}px`;taostsContainer.style.width="80%";if(videoWasAlreadySeem){restartOrContinueVideoScreenEl.style.fontSize="14px";const centeredTextDiv=restartOrContinueVideoScreenEl.querySelector(".contionueScreen-centeredTextDiv-flag");const containerRestartLeft=restartOrContinueVideoScreenEl.querySelector(".contionueScreen-containerRestartLeft-flag");const containerContinueRight=restartOrContinueVideoScreenEl.querySelector(".contionueScreen-containerContinueRight-flag");const btnsContainer=centeredTextDiv.parentNode.children[1];centeredTextDiv.style.maxWidth="400px";btnsContainer.style.maxWidth="400px";centeredTextDiv.style.alignSelf="center";btnsContainer.style.alignSelf="center";centeredTextDiv.style.marginBottom="2rem";centeredTextDiv.style.fontSize="16px";containerRestartLeft.style.flexDirection="column";containerRestartLeft.style.justifyContent="center";containerRestartLeft.style.padding="0 1rem";containerContinueRight.style.flexDirection="column";containerContinueRight.style.justifyContent="center";containerContinueRight.style.padding="0 1rem";containerContinueRight.children[1].style.marginLeft="0";const svgEls=restartOrContinueVideoScreenEl.querySelectorAll("svg");svgEls.forEach(el=>el.style.height="55px")}}}}window.addEventListener("resize",checkScreenSize);checkScreenSize();let imgCoverElWasRemoved=false;let loadingElWasShownAfterPlayerWasPressed=false;let loadingElWasHiddenAfterPlayerWasPressedAndVideoStarted=false;let startPlayTime=null;let elapsedTimeBeforePause=0;let timeInSecondsToCompleteTheQlicklyPartOfTheFakeProgressBar=tempoEmSegundosParaPreencherParteRapidaFake;let pencentageOfTheFakeProgressBarToBeQucklyComplete=percentualParaSerPreenchidoRapidamenteFake;let animationFrameId=null;let isPlaying=false;let videoDurationIsKnow=false;let videoTimeToFirePixelEvent;let videoTimeToFirePixelEventMarcador;let videoTimeToFirePixelEventPercentualIniNome=5;let alreadyFiredAllPixelEvents=false;let vslIsPlaying=false;let tranparentElToBlockPauseIsAppended=false;let transparentElControllerPlayPauseIsAppended=false;let autoplayMaskWasRemoved=false;let coverForWhenDoNotHaveAutoplayAndImgCoverWasRemoved=false;let ctaBtnDelayClassWasRemoved=false;let ctaBtnShownClassWasAddedToHideAgain=false;let supportBtnDelayClassWasRemoved=false;let supportBtnShownClassWasAddedToHideAgain=false;let foundIfPlayerIsRegularOrContinue=false;let regularOrContinuePlayerChoice;let seekedTheCorrectTimeIfVideoWasAlreadySeem=false;let alreadyRemovedRestartOrContinueVideoScreenEl=false;let anotherHiddenElsWereShow=false;let actionsBarWasAppendedFlag=false;let gatilhoDeContatoFlag=false;let actionBarWasShownAfterVideoStarted=false;function onPlayerStateChangeGlobal(event){if(!actionsBarWasAppendedFlag){playerContainerEl.appendChild(actionsBarContainer);actionsBarContainer.style.display="none";actionsBarWasAppendedFlag=true}if(!alreadyRemovedRestartOrContinueVideoScreenEl&&videoWasAlreadySeem){restartOrContinueVideoScreenEl.remove();alreadyRemovedRestartOrContinueVideoScreenEl=true}if(regularOrContinuePlayerChoice==="continue-player"&&!foundIfPlayerIsRegularOrContinue){player=playerElForAlreadyStartedVideo;foundIfPlayerIsRegularOrContinue=true}if(!seekedTheCorrectTimeIfVideoWasAlreadySeem&&videoWasAlreadySeem){if(regularOrContinuePlayerChoice==="continue-player")player.seekTo(+videoCheckPoint);if(regularOrContinuePlayerChoice==="regular-player")player.seekTo(0);seekedTheCorrectTimeIfVideoWasAlreadySeem=true}let videoDurationTime=player.getDuration();if(!hasImgCover&&!hasAutoplay&&!videoWasAlreadySeem&&!coverForWhenDoNotHaveAutoplayAndImgCoverWasRemoved){tempCoverForWhenDoNotHaveAutoplayAndCoverImg.remove()}if(hasImgCover&&!hasAutoplay&&!videoWasAlreadySeem&&!coverForWhenDoNotHaveAutoplayAndImgCoverWasRemoved){tempCoverForWhenDoNotHaveAutoplayAndCoverImg.remove()}if(transparentElControllerPlayPauseIsAppended===false){playerContainerEl.appendChild(coverPlayPauseEl);transparentElControllerPlayPauseIsAppended=true}function updateFakeProgressBar(){if(progressBarHasFakeProgress){const currentTime=player.getCurrentTime();let elapsedTime=currentTime-startPlayTime+elapsedTimeBeforePause;if(videoWasAlreadySeem&&regularOrContinuePlayerChoice==="continue-player"){elapsedTime=elapsedTime+ +videoCheckPoint}let progressPercentage;if(elapsedTime<=timeInSecondsToCompleteTheQlicklyPartOfTheFakeProgressBar){progressPercentage=elapsedTime/timeInSecondsToCompleteTheQlicklyPartOfTheFakeProgressBar*pencentageOfTheFakeProgressBarToBeQucklyComplete}else{const remainingTime=videoDurationTime-timeInSecondsToCompleteTheQlicklyPartOfTheFakeProgressBar;const remainingElapsedTime=elapsedTime-timeInSecondsToCompleteTheQlicklyPartOfTheFakeProgressBar;progressPercentage=pencentageOfTheFakeProgressBarToBeQucklyComplete+remainingElapsedTime/remainingTime*(100-pencentageOfTheFakeProgressBarToBeQucklyComplete)}if(progressPercentage>99.999999){progressPercentage=99.999999}progressBarEl.style.width=`${progressPercentage}%`;if(progressPercentage>=100){cancelAnimationFrame(animationFrameId)}else{animationFrameId=requestAnimationFrame(updateFakeProgressBar)}}if(!progressBarHasFakeProgress){const currentTime=player.getCurrentTime();const elapsedTime=currentTime-startPlayTime+elapsedTimeBeforePause;let progressPercentage;if(videoWasAlreadySeem&&regularOrContinuePlayerChoice==="continue-player"){progressPercentage=elapsedTime/videoDurationTime*100;const alreadyComplemetedProgress=videoCheckPoint*100/videoDurationTime;progressBarEl.style.width=`${progressPercentage+alreadyComplemetedProgress}%`}if(videoWasAlreadySeem&&regularOrContinuePlayerChoice==="regular-player"){progressPercentage=elapsedTime/videoDurationTime*100;progressBarEl.style.width=`${progressPercentage}%`}if(!videoWasAlreadySeem&&regularOrContinuePlayerChoice==="regular-player"){progressPercentage=elapsedTime/videoDurationTime*100;progressBarEl.style.width=`${progressPercentage}%`}if(progressPercentage>=100){cancelAnimationFrame(animationFrameId)}else{animationFrameId=requestAnimationFrame(updateFakeProgressBar)}}}if(!loadingElWasShownAfterPlayerWasPressed){loadingEl.classList.remove("hide");if(hasAutoplay&&!videoWasAlreadySeem)autoplayUnmuteEl.remove();loadingElWasShownAfterPlayerWasPressed=true}if(!videoCanBePaused&&!tranparentElToBlockPauseIsAppended){playerContainerEl.appendChild(transparentElToDoNotUserPauseVideo);tranparentElToBlockPauseIsAppended=true}if(!videoCanBePaused)transparentElToDoNotUserPauseVideo.classList.remove("hide");if(event.data==YT.PlayerState.PLAYING){if(!actionBarWasShownAfterVideoStarted&&isTouchDevice){const actionBarEl=document.querySelector(".player-actions-container");if(actionBarEl){actionBarEl.style.display="flex";setTimeout(()=>{actionBarEl.style.display="none"},3e3)}actionBarWasShownAfterVideoStarted=true}if(hasImgCover&&!hasAutoplay&&!imgCoverElWasRemoved){imgCoverEl.remove();imgCoverElWasRemoved=true}if(!loadingElWasHiddenAfterPlayerWasPressedAndVideoStarted){loadingEl.classList.add("hide");loadingElWasHiddenAfterPlayerWasPressedAndVideoStarted=true}if(hasAutoplay&&!autoplayMaskWasRemoved&&!videoWasAlreadySeem){const playerMaskToBeRemoved=document.querySelector(`#vplayer-mask`);playerMaskToBeRemoved.remove();autoplayMaskWasRemoved=true}const checkProgress=setInterval(()=>{if(!isPlaying){isPlaying=true;startPlayTime=player.getCurrentTime()-elapsedTimeBeforePause;animationFrameId=requestAnimationFrame(updateFakeProgressBar)}if(videoDurationIsKnow===false){videoDurationTime=player.getDuration();videoTimeToFirePixelEvent=videoDurationTime/20;videoTimeToFirePixelEventMarcador=videoDurationTime/20;videoDurationIsKnow=true}const currentTime=player.getCurrentTime();if(currentTime<videoDurationTime-3&&!editorMode)localStorage.setItem(localStorageKey,currentTime);if(currentTime>=videoDurationTime-3&&!editorMode)localStorage.removeItem(localStorageKey);if(currentTime>=gatilhoDeContatoTimeToPauseVideo&&gatilhoDeContatoAtivado&&!gatilhoDeContatoFlag){if(document.fullscreenElement||document.webkitFullscreenElement||document.mozFullScreenElement||document.msFullscreenElement){if(document.exitFullscreen){document.exitFullscreen()}else if(document.mozCancelFullScreen){document.mozCancelFullScreen()}else if(document.webkitExitFullscreen){document.webkitExitFullscreen()}else if(document.msExitFullscreen){document.msExitFullscreen()}}else{console.warn("Não está em tela cheia. Ignorando chamada para exitFullscreen().")}coverPlayPauseElHandler(event);if(editorMode){const elToAppendGatilho=document.querySelector(".playervc-container");elToAppendGatilho.appendChild(gatilhoDeContatoOverlayContainerEl)}if(!editorMode)document.body.appendChild(gatilhoDeContatoOverlayContainerEl);gatilhoDeContatoFlag=true}if(currentTime>=videoTimeToFirePixelEvent&&alreadyFiredAllPixelEvents===false){if(fbPixelIsInstalled&&dispararEventosDePixel&&!editorMode)fbq("trackCustom",`VSL-View${videoTimeToFirePixelEventPercentualIniNome}%`,{flag:"1"});videoTimeToFirePixelEvent=videoTimeToFirePixelEvent+videoTimeToFirePixelEventMarcador;videoTimeToFirePixelEventPercentualIniNome=videoTimeToFirePixelEventPercentualIniNome+5;if(currentTime===videoDurationTime)alreadyFiredAllPixelEvents=true}if(vslIsPlaying===false&&currentTime>=.01&&alreadyFiredAllPixelEvents===false){if(fbPixelIsInstalled&&dispararEventosDePixel&&!editorMode)fbq("trackCustom","VSL-Started",{flag:"1"});vslIsPlaying=true}if(anotherElsHaveDelayUsingCtaBtnTime===true&&anotherHiddenElsWereShow===false&&currentTime>=anotherElsTimeToShowOtherHiddenEls){const elsOcultosPeloUsuario=document.querySelectorAll(".ocultar");if(elsOcultosPeloUsuario.length>=1){elsOcultosPeloUsuario.forEach(el=>el.classList.remove("ocultar"))}if(fbPixelIsInstalled&&dispararEventosDePixel&&!editorMode)fbq("trackCustom","VSL-AnotherHiddenElsWereRevealed",{flag:"1"});anotherHiddenElsWereShow=true}if(hasCtaBtn===true&&ctaBtnHasDelay===true&&ctaBtnDelayClassWasRemoved===false&&currentTime>=timeToShowDelayedCtaBtn){const hiddenCtaBtnEl=document.querySelector(".ctaBtn");hiddenCtaBtnEl.classList.remove("esconder");if(fbPixelIsInstalled&&dispararEventosDePixel&&!editorMode)fbq("trackCustom","VSL-BtnCtaRevealed",{flag:"1"});ctaBtnDelayClassWasRemoved=true}if(hasCtaBtn===true&&ctaBtnHasDelay===true&&hideCtaBtnAgainAfterDelay===true&&ctaBtnShownClassWasAddedToHideAgain===false&&currentTime>=timeToHideDelayedCtaBtnAgainAfterDelay){const hiddenCtaBtnEl=document.querySelector(".ctaBtn");hiddenCtaBtnEl.classList.add("esconder");if(fbPixelIsInstalled&&dispararEventosDePixel&&!editorMode)fbq("trackCustom","VSL-BtnCtaHidden",{flag:"1"});ctaBtnShownClassWasAddedToHideAgain=true}if(hasSupportBtn===true&&supportBtnHasDelay===true&&supportBtnDelayClassWasRemoved===false&&currentTime>=timeToShowDelayedSupportBtn){const hiddenCtaSupportEl=document.querySelector(".supportBtn");hiddenCtaSupportEl.classList.remove("esconder");if(fbPixelIsInstalled&&dispararEventosDePixel&&!editorMode)fbq("trackCustom","VSL-BtnSupportRevealed",{flag:"1"});supportBtnDelayClassWasRemoved=true}if(hasSupportBtn===true&&supportBtnHasDelay===true&&hideSupportBtnAgainAfterDelay===true&&supportBtnShownClassWasAddedToHideAgain===false&&currentTime>=timeToHideDelayedSupportBtnAgainAfterDelay){const hiddenCtaSupportEl=document.querySelector(".supportBtn");hiddenCtaSupportEl.classList.add("esconder");if(fbPixelIsInstalled&&dispararEventosDePixel&&!editorMode)fbq("trackCustom","VSL-BtnSupportHidden",{flag:"1"});supportBtnShownClassWasAddedToHideAgain=true}eventosDeFbPixelPersonalizados.forEach(event=>{if(fbPixelIsInstalled&&dispararEventosDePixel&&hasFbEventosDePixelPersonalizados&&!editorMode){if(currentTime>=event.time&&currentTime<event.time+1&&!event.fired){fbq("trackCustom",event.message.trim(),{flag:"1"});event.fired=true}}});if(toatsToBeAppendedDuranteExibicaoDoVideo.length>0&&!editorMode&&toastsExists){toatsToBeAppendedDuranteExibicaoDoVideo.forEach(toast=>{const checkTimeAndCreateToast=()=>{const currentTime=player.getCurrentTime();if(currentTime>=toast.videoTimeToCreateToastIfDuringVideoExhibition&&!toast.toastCreated){const toastEl=toastCreator(toast);taostsContainer.appendChild(toastEl);toast.toastCreated=true}};checkTimeAndCreateToast();const toastInterval=setInterval(()=>{if(!toast.toastCreated){checkTimeAndCreateToast()}else{clearInterval(toastInterval)}},1e3)})}})}if(event.data==YT.PlayerState.ENDED){showPlayPauseCover({backgroundColor:"rgb(0 0 0 / 100%",playerWasPaused:false,event:event});if(!videoCanBePaused)transparentElToDoNotUserPauseVideo.classList.add("hide");if(fbPixelIsInstalled&&dispararEventosDePixel&&!editorMode)fbq("trackCustom","VSL-Ended",{flag:"1"})}}const coverPlayPauseElHandler=event=>{let playerStatus;regularOrContinuePlayerChoice==="regular-player"?playerStatus=player.getPlayerState():playerStatus=playerElForAlreadyStartedVideo.getPlayerState();if(playerStatus===1){player.pauseVideo();regularOrContinuePlayerChoice==="regular-player"?player.pauseVideo():playerElForAlreadyStartedVideo.pauseVideo();showPlayPauseCover({backgroundColor:"rgb(0 0 0 / 40%)",playerWasPaused:true,event:event})}if(playerStatus===2||playerStatus===0||playerStatus===5){regularOrContinuePlayerChoice==="regular-player"?player.playVideo():playerElForAlreadyStartedVideo.playVideo();hidePlayPauseCover({event:event})}};coverPlayPauseEl.addEventListener("click",coverPlayPauseElHandler);function onPlayerReady(event){const checkFbPixelIsInstalled=checkIfFbPixelIsInstalled();if(checkFbPixelIsInstalled)fbPixelIsInstalled=true;if(hasImgCover&&!hasAutoplay&&!videoWasAlreadySeem){playerContainerEl.appendChild(imgCoverEl);tempCoverForWhenDoNotHaveAutoplayAndCoverImg.style.backgroundColor="#00000000";playerContainerEl.appendChild(tempCoverForWhenDoNotHaveAutoplayAndCoverImg)}if(!hasImgCover&&!hasAutoplay&&!videoWasAlreadySeem){playerContainerEl.appendChild(tempCoverForWhenDoNotHaveAutoplayAndCoverImg)}if(!videoWasAlreadySeem)loadingEl.classList.add("hide");player.setPlaybackRate(videosIniPlaybackRate);if(allowUserToChangePlaybackSpeedDuringExibition){speed1IconEl.addEventListener("click",()=>player.setPlaybackRate(1.25));speed125IconEl.addEventListener("click",()=>player.setPlaybackRate(1.5));speed150IconEl.addEventListener("click",()=>player.setPlaybackRate(1.75));speed175IconEl.addEventListener("click",()=>player.setPlaybackRate(2));speed200IconEl.addEventListener("click",()=>player.setPlaybackRate(1))}}let playerRegularIniHandler=false;function onPlayerStateChange(event){if(!playerRegularIniHandler){regularOrContinuePlayerChoice="regular-player";const playerElForAlreadyStartedVideo=document.querySelector("#playerCreator-playerElForAreadyStartedVideo-id");if(playerElForAlreadyStartedVideo)playerElForAlreadyStartedVideo.remove();playerRegularIniHandler=true}onPlayerStateChangeGlobal(event)}function onPlayerReadyMask(event){if(startAutplayVideoInDifferentTime)autoplayPlayerMask.seekTo(timeToStartAutoplayVideo);if(!startAutplayVideoInDifferentTime)autoplayPlayerMask.seekTo(0);autoplayPlayerMask.setPlaybackRate(videosIniPlaybackRate);autoplayPlayerMaskLoadingEl.remove();playerContainerEl.appendChild(autoplayUnmuteEl)}function onPlayerStateChangeMask(event){const playerStatus=autoplayPlayerMask.getPlayerState();if(playerStatus==YT.PlayerState.PLAYING){}if(playerStatus==YT.PlayerState.ENDED){autoplayPlayerMask.seekTo(0)}}function onPlayerReadyAlreadyStartedVideoPlayer(event){playerElForAlreadyStartedVideo.setPlaybackRate(videosIniPlaybackRate);if(videoWasAlreadySeem)loadingEl.classList.add("hide")}let playerContinueIniHandler=false;function onPlayerStateChangeAlreadyStartedVideoPlayer(event){if(!playerContinueIniHandler){regularOrContinuePlayerChoice="continue-player";const playerElForAlreadyStartedVideo=document.querySelector("#playerCreator-playerElForAreadyStartedVideo-id");playerElForAlreadyStartedVideo.style.width="100%";playerEl.remove();playerContinueIniHandler=true}onPlayerStateChangeGlobal(event)}window.onYouTubeIframeAPIReady=function(){player=new YT.Player(`playerCreator-playerEl-id`,{events:{onReady:onPlayerReady,onStateChange:onPlayerStateChange}});if(hasAutoplay&&!videoWasAlreadySeem){autoplayPlayerMask=new YT.Player(`vplayer-mask`,{events:{onReady:onPlayerReadyMask,onStateChange:onPlayerStateChangeMask}})}if(videoWasAlreadySeem){playerElForAlreadyStartedVideo=new YT.Player(`playerCreator-playerElForAreadyStartedVideo-id`,{events:{onReady:onPlayerReadyAlreadyStartedVideoPlayer,onStateChange:onPlayerStateChangeAlreadyStartedVideoPlayer}})}if(editorMode){renderedPlayers.push(player);if(hasAutoplay&&!videoWasAlreadySeem)renderedPlayers.push(autoplayPlayerMask);if(videoWasAlreadySeem)renderedPlayers.push(playerElForAlreadyStartedVideo)}};if(tubeApiIsLoaded){playerEl.addEventListener(`load`,()=>{player=new YT.Player(`playerCreator-playerEl-id`,{events:{onReady:onPlayerReady,onStateChange:onPlayerStateChange}})});if(hasAutoplay&&!videoWasAlreadySeem){autoplayPlayerMask.addEventListener(`load`,()=>{autoplayPlayerMask=new YT.Player(`vplayer-mask`,{events:{onReady:onPlayerReadyMask,onStateChange:onPlayerStateChangeMask}})})}if(videoWasAlreadySeem){playerElForAlreadyStartedVideo=new YT.Player(`playerCreator-playerElForAreadyStartedVideo-id`,{events:{onReady:onPlayerReadyAlreadyStartedVideoPlayer,onStateChange:onPlayerStateChangeAlreadyStartedVideoPlayer}})}}
+
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // 1. DADOS DOS BENEFÍCIOS
+        // Os ícones são SVGs embutidos para não depender de bibliotecas externas.
+        const benefitsData = [
+            {
+                icon: `<svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>`,
+                title: "Plantão 24/7",
+                description: "Plantão de dúvidas TODOS OS DIAS da semana",
+                colorClass: "gradient-cyan-teal"
+            },
+            {
+                icon: `<svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>`,
+                title: "Material Completo",
+                description: "Livro + mapas mentais + material impresso de alta qualidade",
+                colorClass: "gradient-cyan-teal"
+            },
+            {
+                icon: `<svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M16 7l-4 4-4-4"></path><path d="M12 17.27l-4.24-2.45 1.6-4.82 4.24 2.45-1.6 4.82z"></path><path d="M12 17.27l4.24-2.45-1.6-4.82-4.24 2.45 1.6 4.82z"></path></svg>`,
+                title: "Resultados Garantidos",
+                description: "1 mês para transformar sua nota em Física no ENEM",
+                colorClass: "gradient-cyan-teal"
+            },
+            {
+                icon: `<svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>`,
+                title: "Aulas ao Vivo",
+                description: "1 aula por semana presencial (Maceió/Arapiraca) ou online para todo Brasil",
+                colorClass: "gradient-cyan-teal"
+            },
+            {
+                icon: `<svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 00-3-3.87"></path><path d="M16 3.13a4 4 0 010 7.75"></path></svg>`,
+                title: "Questões Comentadas",
+                description: "Todas as questões de Física do ENEM comentadas uma por uma",
+                colorClass: "gradient-cyan-teal"
+            },
+            {
+                icon: `<svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>`,
+                title: "Método AFTER",
+                description: "Sistema exclusivo para dominar a matéria que mais reprova",
+                colorClass: "gradient-cyan-teal"
+            }
+        ];
+
+        // 2. FUNÇÃO PARA CRIAR E INSERIR OS CARDS
+        const grid = document.getElementById('benefits-grid');
+        if (grid) {
+            benefitsData.forEach((benefit, index) => {
+                // Cria o elemento do card
+                const cardWrapper = document.createElement('div');
+                cardWrapper.className = 'animate-on-scroll';
+                // Adiciona o delay para a animação escalonada
+                cardWrapper.style.transitionDelay = `${index * 0.1 + 0.2}s`;
+                
+                // Conteúdo HTML do card
+                cardWrapper.innerHTML = `
+                    <div class="benefit-card">
+                        <div class="card-content">
+                            <div class="icon-container ${benefit.colorClass}">
+                                ${benefit.icon}
+                            </div>
+                            <h3 class="card-title">${benefit.title}</h3>
+                            <p class="card-description">${benefit.description}</p>
+                        </div>
+                    </div>
+                `;
+                
+                // Adiciona o card ao grid
+                grid.appendChild(cardWrapper);
+            });
+        }
+
+        // 3. LÓGICA PARA ANIMAÇÃO AO ROLAR A PÁGINA
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); // Anima apenas uma vez
+                }
+            });
+        }, {
+            rootMargin: "-100px 0px", // Inicia a animação um pouco antes de o elemento estar totalmente visível
+            threshold: 0.1
+        });
+
+        // Observa todos os elementos com a classe .animate-on-scroll
+        document.querySelectorAll('.animate-on-scroll').forEach(element => {
+            observer.observe(element);
+        });
+    });
+
+
+
+// ========= Dados (substitua pelos seus) =========
+const students = [
+{
+  avatar: "https://d1yei2z3i6k35z.cloudfront.net/10350196/68a38ce8b9df7_BrunaMariaGuimar%C3%A3esMaia-MEDICINA-UEMA.png",
+  name: "Bruna Maria Guimarães Maia",
+  uni: "MEDICINA - UEMA"
+},
+{
+  avatar: "https://d1yei2z3i6k35z.cloudfront.net/10350196/68a38d8f14426_ClaraMouraGalv%C3%A3oFerreira-MEDICINA-UFAL-UNCISAL.png",
+  name: "Clara Moura Galvão Ferreira",
+  uni: "MEDICINA - UFAL/UNCISAL"
+},
+{
+  avatar: "https://d1yei2z3i6k35z.cloudfront.net/10350196/68a38e1fcdf58_BRENDASOUZA-MEDICINA-UNI.DOMPEDRO-II.png",
+  name: "Brenda Souza",
+  uni: "MEDICINA - UNI.DOMPEDRO-II"
+},
+{
+  avatar: "https://d1yei2z3i6k35z.cloudfront.net/10350196/68a38e5fa7fcc_DavyssonCarlos-MEDICINA-UFAL-UNCISAL.png",
+  name: "Davysson Carlos",
+  uni: "MEDICINA - UFAL/UNCISAL"
+},
+{
+  avatar: "https://d1yei2z3i6k35z.cloudfront.net/10350196/68a38eb0bdedd_GabrielGuttenbergBr%C3%AAdaRodrigues-MEDICINA-UFAL-UNCISAL.png",
+  name: "Gabriel Guttenberg Brêda Rodrigues",
+  uni: "MEDICINA - UFAL/UNCISAL"
+},
+{
+  avatar: "https://d1yei2z3i6k35z.cloudfront.net/10350196/68a38f1b5f5d6_GUILHERMEGOMESCARVALHO-MEDICINA-UFAL-UNCISAL.png",
+  name: "Guilherme Gomes Carvalho",
+  uni: "MEDICINA - UFAL/UNCISAL"
+},
+{
+  avatar: "https://d1yei2z3i6k35z.cloudfront.net/10350196/68a38f8bcb829_LilianyLouise-MEDICINA-UFMA-UNCISAL.png",
+  name: "Liliany Louise",
+  uni: "MEDICINA - UFMA/UNCISAL"
+}
+,
+{
+  avatar: "https://d1yei2z3i6k35z.cloudfront.net/10350196/68a38fdde019b_luizricardo-MEDICINA-UFAL-UNCISAL.png",
+  name: "Luiz Ricardo",
+  uni: "MEDICINA - UFAL/UNCISAL"
+}
+,
+{
+  avatar: "https://d1yei2z3i6k35z.cloudfront.net/10350196/68a3902bf2425_RAMYLLEREYNOLDS-MEDICINA-UFAL-UNCISAL.png",
+  name: "Ramylle Reynolds",
+  uni: "MEDICINA - UFAL/UNCISAL"
+}
+,
+{
+  avatar: "https://d1yei2z3i6k35z.cloudfront.net/10350196/68a390f21a301_victorbueno-MEDICINA-UNCISAL-UNIVASF.png",
+  name: "Victor Bueno",
+  uni: "MEDICINA - UNIVASF"
+}
+];
+
+const prints = [
+"https://d1yei2z3i6k35z.cloudfront.net/10350196/68a4cf0657b5b_WhatsAppImage2025-08-18at18.38.03.jpeg",
+"https://d1yei2z3i6k35z.cloudfront.net/10350196/68a778db11c27_WhatsAppImage2025-08-21at16.17.33.jpeg",
+"https://d1yei2z3i6k35z.cloudfront.net/10350196/68a4cfd17d81d_WhatsAppImage2025-08-18at18.38.05.jpeg",
+"https://d1yei2z3i6k35z.cloudfront.net/10350196/68a4cfdfb6525_WhatsAppImage2025-08-18at18.38.051.jpeg",
+"https://d1yei2z3i6k35z.cloudfront.net/10350196/68a4cff9bb7e4_WhatsAppImage2025-08-18at18.38.06.jpeg",
+"https://d1yei2z3i6k35z.cloudfront.net/10350196/68a4d00b5b8b9_WhatsAppImage2025-08-18at18.38.061.jpeg",
+"https://d1yei2z3i6k35z.cloudfront.net/10350196/68a7790ee3bbf_WhatsAppImage2025-08-21at16.17.32.jpeg",
+"https://d1yei2z3i6k35z.cloudfront.net/10350196/68a77918c756d_WhatsAppImage2025-08-21at16.50.43.jpeg",
+"https://d1yei2z3i6k35z.cloudfront.net/10350196/68a4d0c4c4a20_WhatsAppImage2025-08-18at18.38.10.jpeg",
+"https://d1yei2z3i6k35z.cloudfront.net/10350196/68a4d0d38964e_WhatsAppImage2025-08-18at18.38.11.jpeg",
+"https://d1yei2z3i6k35z.cloudfront.net/10350196/68a4d0de7df7f_WhatsAppImage2025-08-18at18.38.111.jpeg",
+"https://d1yei2z3i6k35z.cloudfront.net/10350196/68a779253eaee_WhatsAppImage2025-08-21at16.51.05.jpeg"
+];
+
+(function(){
+  const grid = document.getElementById('printsGrid');
+  if (!grid) return;
+
+  // 1) Renderiza as miniaturas
+  grid.innerHTML = prints.map((src, i) => `
+    <button class="print-card" data-index="${i}" aria-label="Abrir imagem ${i+1}">
+      <img src="${src}" alt="Agradecimento ${i+1}" loading="lazy" decoding="async">
+    </button>
+  `).join('');
+
+  // 2) Cria o lightbox
+  const lb = document.createElement('div');
+  lb.className = 'lightbox';
+  lb.innerHTML = `
+    <img class="lightbox__img" alt="Depoimento ampliado">
+    <button class="lightbox__close" aria-label="Fechar" title="Fechar">&times;</button>
+    <button class="lightbox__nav prev" aria-label="Anterior">&#10094;</button>
+    <button class="lightbox__nav next" aria-label="Próxima">&#10095;</button>
+  `;
+  document.body.appendChild(lb);
+
+  const imgEl   = lb.querySelector('.lightbox__img');
+  const btnPrev = lb.querySelector('.prev');
+  const btnNext = lb.querySelector('.next');
+  const btnClose= lb.querySelector('.lightbox__close');
+
+  let current = 0;
+
+  function open(i){
+    current = i;
+    imgEl.src = prints[current];
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden'; // trava scroll do fundo
+  }
+  function close(){
+    lb.classList.remove('open');
+    imgEl.removeAttribute('src');
+    document.body.style.overflow = '';
+  }
+  function show(delta){
+    current = (current + delta + prints.length) % prints.length;
+    imgEl.src = prints[current];
+  }
+
+  // 3) Eventos
+  grid.addEventListener('click', (e) => {
+    const card = e.target.closest('.print-card');
+    if (!card) return;
+    open(parseInt(card.dataset.index, 10));
+  });
+  btnClose.addEventListener('click', close);
+  btnPrev.addEventListener('click', () => show(-1));
+  btnNext.addEventListener('click', () => show(1));
+
+  // Fecha clicando fora da imagem
+  lb.addEventListener('click', (e) => {
+    if (e.target === lb) close();
+  });
+
+  // Teclado
+  document.addEventListener('keydown', (e) => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape')      close();
+    if (e.key === 'ArrowLeft')   show(-1);
+    if (e.key === 'ArrowRight')  show(1);
+  });
+})();
+// ========= Monta Carrossel =========
+const track = document.getElementById("carouselTrack");
+
+function createStudentCard(s){
+const li = document.createElement("div");
+li.className = "student-card";
+li.setAttribute("role","listitem");
+li.innerHTML = `
+  <img class="student-avatar" src="${s.avatar}" alt="Foto de ${s.name}">
+  <div class="student-meta">
+    <div class="student-name">${s.name}</div>
+    <div class="student-uni">${s.uni}</div>
+  </div>
+`;
+return li;
+}
+
+// Preenche uma vez
+students.forEach(s => track.appendChild(createStudentCard(s)));
+// Duplica para looping suave (animação move -50%)
+students.forEach(s => track.appendChild(createStudentCard(s)));
+
+// Pausa animação quando não estiver em viewport (performance)
+const observer = new IntersectionObserver((entries)=>{
+entries.forEach(entry=>{
+  track.style.animationPlayState = entry.isIntersecting ? 'running' : 'paused';
+});
+}, {threshold: 0.1});
+observer.observe(track);
+
+// ========= Monta Grid de Prints =========
+const printsGrid = document.getElementById("printsGrid");
+prints.forEach(url=>{
+const card = document.createElement("figure");
+card.className = "print-card";
+card.innerHTML = `<img src="${url}" alt="Print de agradecimento de aluno">`;
+printsGrid.appendChild(card);
+});
+
+// ======= CONFIGURE AQUI =======
+  // Telefone no formato DDI + DDD + número (apenas dígitos)
+  const PHONE = "558234358150"; // Ex.: +55 82 3435-8150 -> 558234358150
+  // Mensagem inicial
+  const MSG   = "Quero saber mais sobre a revisão / The Best Week";
+  // ===============================
+
+  // Monta o link com mensagem URL-encoded
+  const waLink = `https://wa.me/${PHONE}?text=${encodeURIComponent(MSG)}`;
+
+  // Define o href do botão
+  const btn = document.getElementById("waButton");
+  btn.href = waLink;
+// ===============================================
+// CARROSSEL: NAVEGAÇÃO, INDICADORES E PROGRESSO
+// ===============================================
+const wrapper = document.querySelector('.carousel__mask'); // <— era #carouselWrapper
+const items = track ? Array.from(track.children) : [];
+const btnPrev = document.getElementById('btnPrev');
+const btnNext = document.getElementById('btnNext');
+const indicatorsContainer = document.querySelector('.carousel-indicators');
+const bar = document.getElementById('carouselBar');
+
+if (track && wrapper && items.length > 0) {
+  let index = 0;
+  const autoplayMs = 3000;
+  let autoplayTimer = null;
+  let paused = false;
+
+  // Cria indicadores só se existir o container
+  let indicators = [];
+  if (indicatorsContainer) {
+    indicatorsContainer.innerHTML = items.map((_, i) =>
+      `<button role="tab" class="indicator" data-i="${i}" aria-label="Ir para o slide ${i + 1}"></button>`
+    ).join('');
+    indicators = Array.from(indicatorsContainer.children);
+  }
+
+  function getSlideStep() {
+    const el = items[0];
+    const styles = getComputedStyle(el);
+    const mr = parseFloat(styles.marginRight || '0');
+    return el.offsetWidth + mr;
+  }
+
+  function goTo(i, { animate = true } = {}) {
+    const total = items.length;
+    index = (i + total) % total;
+    const step = getSlideStep();
+
+    track.style.transition = animate ? 'transform .6s ease' : 'none';
+    track.style.transform = `translateX(${-index * step}px)`;
+
+    indicators.forEach((dot, di) => {
+      dot.classList.toggle('active', di === index);
+      dot.setAttribute('aria-selected', di === index);
+    });
+    if (autoplayTimer) resetProgress();
+  }
+
+  function next() { goTo(index + 1); }
+  function prev() { goTo(index - 1); }
+
+  function startProgress() {
+    if (!bar) return;
+    bar.style.transition = 'none';
+    bar.style.width = '0%';
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        bar.style.transition = `width ${autoplayMs}ms linear`;
+        bar.style.width = '100%';
+      });
+    });
+  }
+  function stopProgress() {
+    if (!bar) return;
+    bar.style.width = getComputedStyle(bar).width;
+    bar.style.transition = 'none';
+  }
+  function resetProgress() {
+    if (paused) return;
+    stopProgress();
+    requestAnimationFrame(startProgress);
+  }
+  function startAutoplay() {
+    stopAutoplay();
+    if (paused) return;
+    autoplayTimer = setInterval(next, autoplayMs);
+    resetProgress();
+  }
+  function stopAutoplay() {
+    if (autoplayTimer) clearInterval(autoplayTimer);
+    autoplayTimer = null;
+    stopProgress();
+  }
+
+  // Só adiciona listeners se os botões existirem
+  if (btnPrev) btnPrev.addEventListener('click', () => { prev(); startAutoplay(); });
+  if (btnNext) btnNext.addEventListener('click', () => { next(); startAutoplay(); });
+  if (indicators.length) {
+    indicators.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const i = parseInt(dot.getAttribute('data-i'), 10) || 0;
+        goTo(i);
+        startAutoplay();
+      });
+    });
+  }
+
+  // Eventos do wrapper — protegido
+  wrapper.addEventListener('mouseenter', () => { paused = true; stopAutoplay(); });
+  wrapper.addEventListener('mouseleave', () => { paused = false; startAutoplay(); });
+  wrapper.addEventListener('touchstart', () => { paused = true; stopAutoplay(); }, { passive: true });
+  wrapper.addEventListener('touchend', () => { setTimeout(() => { paused = false; startAutoplay(); }, 300); });
+
+  window.addEventListener('resize', () => goTo(index, { animate: false }));
+  document.addEventListener('visibilitychange', () => {
+    document.hidden ? stopAutoplay() : startAutoplay();
+  });
+
+  goTo(0, { animate: false });
+  startAutoplay();
+}
+document.addEventListener("DOMContentLoaded", () => {
+  const track = document.getElementById("carouselTrack");
+
+  // Define a velocidade diferente
+  const isMobile = window.innerWidth <= 768;
+  const intervalTime = isMobile ? 2000 : 3000; // 2s no celular, 4s no PC
+
+  setInterval(() => {
+    // aqui vai a lógica de nextSlide()
+    // exemplo:
+    track.scrollBy({ left: track.offsetWidth, behavior: "smooth" });
+  }, intervalTime);
+});
+
+
+
+  
+  </script>
+
+</body>
+</html>
