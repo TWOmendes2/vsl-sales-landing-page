@@ -46,14 +46,6 @@ The project can be deployed easily on:
 - Netlify
 - Vercel
 
-## Screenshots
-
-Add screenshots showing:
-
-- hero section
-- VSL video area
-- benefits section
-- call-to-action buttons
 
 ## Author
 
