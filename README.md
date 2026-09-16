@@ -50,3 +50,8 @@ The project can be deployed easily on:
 ## Author
 
 Developed by Felipe Mendes.
+
+
+## Arquitetura de aquisição e CRM
+
+Consulte o [case técnico MarTech](docs/MARTECH-ARCHITECTURE.md): evidência atual, contrato de UTMs, pipeline proposto, segurança, métricas e critérios de homologação. Resultados de conversão não foram medidos nesta revisão.
